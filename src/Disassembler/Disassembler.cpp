@@ -1,0 +1,286 @@
+#include "../cpu/cpu.h"
+#include "disassembler.h"
+#include "../textbufs/textbufs.h"
+#include "../x86_commands/x86_commands.h"
+
+const size_t DEFAULT_BUFSIZE = 50;
+
+#undef DEF_CMD
+
+#define DEF_CMD(name, num, arg, nasm, ...)                \
+    case num:                                             \
+        PutCmd(disasm, #name);                            \
+        switch (arg)                                      \
+        {                                                 \
+            case 2:                                       \
+                log("2 args in case\n");                  \
+                PutStackCmd(disasm);                      \
+                break;                                    \
+            case 1:                                       \
+                WRITE_NUMBER;                             \
+                break;                                    \
+            default:                                      \
+                log("No argument of cmd\n");              \
+        }                                                 \
+        disasm->buf_code[disasm->cursor++] = '\n';        \
+    break;
+
+#define WRITE_NUMBER                                      \
+{                                                         \
+                                                          \
+        PutNumToCharBuf(disasm);                          \
+}
+
+
+const char* DISASM_SIGNATURE = "MDA";
+
+const char* ASM_FILE_NAME_DISASM = "result/bytecodes/ASM.txt";
+
+const int MAX_LEN_CMD = 6;
+
+int MakeReadableCode()
+{
+    log("\n----------DISASM----------\n");
+
+    disasm_t disasm = {NULL, 0, 0, DISASM_SIGNATURE, NULL, 0};
+
+    log("disasm created\n");
+
+    getCodeForDisasm(&disasm);
+
+    log("Code was read\n");
+
+    codebuf_t codebuf = {};
+    CodeBufCtor(&codebuf);
+
+    if (Disassemble(&disasm, &codebuf))
+    {
+        print_log(FRAMED, "EXECUTION ERROR");
+    }
+
+    WriteUserCode(&disasm, "result/Disassembled.txt");
+
+    log("Finish disassembling\n");
+
+    return 0;
+}
+
+int CodeBufCtor(codebuf_t* codebuf)
+{
+    codebuf->buf = (char*)(calloc(DEFAULT_BUFSIZE, sizeof(char)));
+    Assert(codebuf->buf == nullptr);
+
+    codebuf->cursor = 0;
+    codebuf->capacity = DEFAULT_BUFSIZE;
+
+    return 0;
+}
+
+// void Push_Handler(Byte_Code_Node* byte_node, x86_Nodes_List* x86_list, int* code_size)
+// {
+//     if (byte_node->mem_arg.has_arg)
+//     {
+//         SET_COMAND(PUSH_R15_OFFSET);
+//         SET_IMM_ARG_MEM();                      // ïîñëå ïîëíîé òðàíñëÿöèè îáíîâèòü àäðåñà íà + code size
+//     }
+
+//     else
+//     {
+//         SET_COMAND(PUSH_REG, | (byte_node->reg_arg.arg));
+//     }
+
+//     SET_OLD_IP();
+//     NEXT_NODE();
+// }
+
+
+int PutCmd(disasm_t* disasm, const char* cmd_name)
+{
+    strcpy(disasm->buf_code + disasm->cursor, cmd_name);
+
+    log("finish strcpy of %s\n", cmd_name);
+
+    disasm->cursor += strlen(cmd_name);
+
+    disasm->buf_code[disasm->cursor++] = ' ';
+
+    disasm->ip++; //experiment
+
+    return 0;
+}
+
+int HandleRegsDisasm(disasm_t* disasm, size_t reg_num)
+{
+    char reg_name[MAX_LEN_REG_NAME] = {'r', 'z', 'x'};
+
+    reg_name[1] = (char)(reg_num + (int)'a');
+
+    log("reg_name: %s\n\n", reg_name);
+
+    strcpy(disasm->buf_code + disasm->cursor, reg_name);
+
+    disasm->cursor += strlen(reg_name);
+
+    return 0;
+}
+
+int PutNumToCharBuf(disasm_t* disasm)
+{
+    char line[5] = {};
+    snprintf(line, 5, "%d", (disasm->asm_code)[disasm->ip]);
+    strncpy(disasm->buf_code + disasm->cursor, line, 5);
+
+    disasm->cursor += strlen(line);
+
+    disasm->ip++;
+
+    return 0;
+}
+
+int PutStackCmd(disasm_t* disasm)
+{
+    log("start PutStackArg\n");
+
+    size_t cmd_ip = disasm->ip - 1; //experiment
+
+    log("code of push: %d\n", disasm->asm_code[cmd_ip]);
+
+    if (disasm->asm_code[cmd_ip] & ARG_RAM)   disasm->buf_code[disasm->cursor++] = '[';
+
+    if (disasm->asm_code[cmd_ip] & ARG_REG)
+    {
+        HandleRegsDisasm(disasm, (disasm->asm_code)[disasm->ip++]);
+    }
+
+    if (disasm->asm_code[cmd_ip] & ARG_IMMED)
+    {
+        WRITE_NUMBER;
+    }
+
+    if (disasm->asm_code[cmd_ip] & ARG_RAM)   disasm->buf_code[disasm->cursor++] = ']';
+
+    log("finish PutStackArg\n");
+
+    return 0;
+}
+
+
+int Disassemble(disasm_t* disasm, codebuf_t* codebuf)
+{
+    Assert(disasm == NULL);
+
+    log("ip: %d, Size: %d\n", disasm->ip, disasm->Size);
+
+    while (disasm->ip < disasm->Size)
+    {
+        log("disasm ip: %d\n", disasm->ip);
+        log("cmd_code wo mask: %x\n", disasm->asm_code[disasm->ip]);
+
+        switch(disasm->asm_code[disasm->ip] & CMD_MASK)
+        {
+            #include "../codegen/CodeGeneration.h"
+
+            default:
+
+                print_log(FRAMED, "COMMAND ERROR: Unexpected command");
+
+                log("ERROR: Unexpected command, ip: %zd\n", disasm->ip);
+
+                return UNDEFINED_CMD;
+        }
+
+        //CPUDump(cpu);
+    }
+
+    log("end of cycle\n");
+
+    #undef DEF_CMD
+
+    return 0;
+}
+
+int WriteUserCode(disasm_t* disasm, const char* filename)
+{
+    FILE* w_file = open_Wfile(filename);
+
+    size_t num_written_sym = fwrite(disasm->buf_code,
+                                    sizeof(char),
+                                    disasm->cursor + 1,
+                                    w_file);
+
+    if (num_written_sym != disasm->cursor + 1)
+    {
+        print_log(FRAMED, "Error in writing to file\n");
+
+        return -1;
+    }
+
+    log("File is written successfully\n");
+
+    return 0;
+}
+
+int checkSignDisasm(disasm_t* disasm, FILE* file_asm)
+{
+    char asm_sign[MAX_LEN_SIGN] = {};
+
+    int num_read_lines = fscanf(file_asm, "%3s", asm_sign);
+
+    log("Lines read: %d\n", num_read_lines);
+
+    log("sign read: %s, sign cpu: %s\n", asm_sign, disasm->signature);
+
+    if (strcmp(asm_sign, disasm->signature))
+    {
+        print_log(FRAMED, "SIGNATURE ERROR");
+
+        return -1;
+    }
+
+    return 0;
+}
+
+void BufCtor(disasm_t* disasm)
+{
+    disasm->asm_code = (int*)(calloc(disasm->Size, sizeof(int)));
+    Assert(disasm->asm_code == nullptr);
+
+    disasm->buf_code = (char*)(calloc(disasm->Size * MAX_LEN_CMD, sizeof(char)));
+    Assert(disasm->buf_code == nullptr);
+}
+
+int getCodeForDisasm(disasm_t* disasm)
+{
+    FILE* file_asm = open_file_rmode(ASM_FILE_NAME_DISASM);
+
+    Assert(file_asm == NULL);
+
+    if (checkSignDisasm(disasm, file_asm))    return -1;
+
+    size_t version = 0;
+
+    fread(&version, sizeof(int), 1, file_asm);
+
+    fread(&disasm->Size, sizeof(int), 1, file_asm);
+
+    log("Size already read: %d\n", disasm->Size);
+
+    BufCtor(disasm);
+
+    fscanf(file_asm, "\n");
+
+    fread(disasm->asm_code, sizeof(int), disasm->Size, file_asm);
+
+    printf("\n");
+
+    fclose(file_asm);
+
+    return 0;
+}
+
+int WriteByteCode(codebuf_t* codebuf, char bytecode)
+{
+    codebuf->buf[codebuf->cursor++] = bytecode;
+
+    return codebuf->cursor;
+}
