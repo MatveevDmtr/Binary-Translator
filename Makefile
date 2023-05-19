@@ -5,42 +5,51 @@ CFLAGS=-c -fno-omit-frame-pointer -std=c++14 -DLOGGING
 OPTFLAG=-O0
 MY_OPT=
 
+PROCESSOR_OBJ_FILES     = Stack_main.o Assembler.o cpu.o GetPoison.o specificators.o
+BINTRANSLATOR_OBJ_FILES = Parser.o Executor.o
+COMMON_OBJ_FILES        = logging.o main.o
+
 all: build execute clear
 
 leakcheck: build use_valgrind clear
 
-build: Processor_main.o Stack_main.o Assembler.o Disassembler.o cpu.o logging.o GetPoison.o specificators.o
-	$(CC) Processor_main.o Stack_main.o Assembler.o Disassembler.o cpu.o logging.o GetPoison.o specificators.o -o Processor
+build: $(PROCESSOR_OBJ_FILES) $(BINTRANSLATOR_OBJ_FILES) $(COMMON_OBJ_FILES)
+	$(CC)  $(PROCESSOR_OBJ_FILES) $(BINTRANSLATOR_OBJ_FILES) $(COMMON_OBJ_FILES) -o main
 
-Processor_main.o: src/Processor_main/Processor_main.cpp
-	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/Processor_main/Processor_main.cpp
+# Processor
+Stack_main.o: src/Processor/Stack/Stack_main.cpp
+	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/Processor/Stack/Stack_main.cpp
 
-Stack_main.o: src/Stack/Stack_main.cpp
-	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/Stack/Stack_main.cpp
+Assembler.o: src/Processor/Assembler/Assembler.cpp
+	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/Processor/Assembler/Assembler.cpp
 
-Assembler.o: src/Assembler/Assembler.cpp
-	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/Assembler/Assembler.cpp
+cpu.o: src/Processor/cpu/cpu.cpp
+	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/Processor/cpu/cpu.cpp
 
-Disassembler.o: src/Disassembler/Disassembler.cpp
-	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/Disassembler/Disassembler.cpp
+GetPoison.o: src/Processor/GetPoison/GetPoison.cpp
+	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/Processor/GetPoison/GetPoison.cpp
 
-cpu.o: src/cpu/cpu.cpp
-	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/cpu/cpu.cpp
+specificators.o: src/Processor/specificators/specificators.cpp
+	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/Processor/specificators/specificators.cpp
 
-logging.o: src/logging/logging.cpp
-	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/logging/logging.cpp 
+# Common
+logging.o: src/Common/logging/logging.cpp
+	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/Common/logging/logging.cpp
+main.o: src/Common/Main/main.cpp
+	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/Common/Main/main.cpp
 
-GetPoison.o: src/GetPoison/GetPoison.cpp
-	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/GetPoison/GetPoison.cpp
+# Binary Translator
+Parser.o: src/BinTranslator/Parser/Parser.cpp
+	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/BinTranslator/Parser/Parser.cpp
 
-specificators.o: src/specificators/specificators.cpp
-	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/specificators/specificators.cpp
+Executor.o: src/BinTranslator/Executor/Executor.cpp
+	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/BinTranslator/Executor/Executor.cpp
 
 clear:
 	rm *.o
 
 execute:
-	./Processor
+	./main
 
 use_valgrind:
-	valgrind --leak-check=full ./Processor
+	valgrind --leak-check=full ./main

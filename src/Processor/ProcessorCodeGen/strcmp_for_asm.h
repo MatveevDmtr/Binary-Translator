@@ -5,7 +5,7 @@
 
 #define DO_POP         ({(double)StackPop(stk) / ACCURACY;})
 
-#define DO_PUSH(arg)   StackPush(stk, (int)((arg) * ACCURACY));
+#define DO_PUSH(arg)   StackPush(stk, (arg) * ACCURACY);
 
 #define REMEMBER_CALL  {StackPush(cpu->StkCalls, cpu->ip);};
 
@@ -39,24 +39,71 @@
     WRITE_ARG_JUMP;                                                          \
 }
 
-DEF_CMD(HLT, 0, 0, ret,
-WriteByteCode(codebuf, x86_RET);
+DEF_CMD(HLT, 0, 0,
+#ifndef RUN_MODE
+    WRITE_CMD_NUM;
+#else
+    {
+        printf("Goodbye!\n");
+
+        return 0;
+    };
+#endif
 )
 
-DEF_CMD(PUSH, 1, 2, push,
-//PutHandler();
+DEF_CMD(PUSH, 1, 2,
+#ifndef RUN_MODE
+    WRITE_STACK_ARG;
+#else
+{
+    DO_PUSH(((double)*GetArg(cpu)) / ACCURACY);
+};
+#endif
 )
 
 DEF_CMD(POP, 2, 2,
-//PopHandler();
+#ifndef RUN_MODE
+    WRITE_STACK_ARG;
+#else
+{
+    int* ptr = GetArg(cpu);
+
+    *ptr = DO_POP * ACCURACY;
+};
+#endif
 )
 
 DEF_CMD(ADD , 3, 0,
-//ArythmeticHandler();
+#ifndef RUN_MODE
+    WRITE_CMD_NUM;
+#else
+{
+    log("in add\n");
+    double a = DO_POP;
+    double b = DO_POP;
+
+    log("a: %lg, b: %lg\n", a, b);
+
+    log("a+b: %lg", a+b);
+
+    DO_PUSH(a + b);
+};
+#endif
 )
 
 DEF_CMD(SUB , 4, 0,
-//ArythmeticHandler();
+#ifndef RUN_MODE
+    WRITE_CMD_NUM;
+#else
+{
+    log("in sub\n");
+
+    double a = DO_POP;
+    double b = DO_POP;
+
+    DO_PUSH(b - a);
+};
+#endif
 )
 
 DEF_CMD(MUL , 5, 0,
@@ -83,7 +130,7 @@ DEF_CMD(DIV , 6, 0,
 
     log("a: %lg, b: %lg\n", a, b);
 
-    if (is_equal(a, 0))
+    if (a == 0)
     {
         printf("ZERO DIVISION ERROR: can't divide by zero\n");
 
@@ -131,7 +178,7 @@ DEF_CMD(OUT , 8, 0,
 
     log("val to out: %lg\n", val);
 
-    if (is_equal(floor(val), val))          printf("Out print is %d \n", (int)val);
+    if (floor(val) == val)          printf("Out print is %d \n", (int)val);
     else                            printf("Out print is %lg\n",      val);
 };
 #endif
@@ -292,7 +339,7 @@ DEF_CMD(CLEAR, 23, 0,
 #else
 {
 #ifdef TX_NECESSARY
-//    txClearConsole();
+    txClearConsole();
 #endif
 ;
 };

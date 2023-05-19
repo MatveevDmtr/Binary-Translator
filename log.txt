@@ -1,0 +1,121 @@
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+--------------------Start program--------------------
+
+
+--------------------Assembler--------------------
+START IN DEFAULT MODE
+try to read file
+File size = 8
+Size of file is: 9 bytes.
+Type_calloc: char
+Sizeof type: 8
+Calloc returned: 0x559bb83c4a90
+
+buffer size: 9
+fread number of symbols: 8
+Num lines: 2
+Type_calloc: type_prop_line
+Sizeof type: 8
+Calloc returned: 0x559bb83c3a80
+
+Type_calloc: int
+Sizeof type: 8
+Calloc returned: 0x559bb83c3ab0
+
+Command found: HLT
+Command found: HLT
+
+
+^^^^^^^ START ASM CODE ^^^^^^^
+
+ASM[0]: 0
+ASM[1]: 0
+
+=======  END ASM CODE =======
+
+Command found: HLT
+Command found: HLT
+
+
+^^^^^^^ START ASM CODE ^^^^^^^
+
+ASM[0]: 0
+ASM[1]: 0
+
+=======  END ASM CODE =======
+
+length signature: 3
+written size: 2
+File is written successfully
+
+----------CPU----------
+stk1 created
+Lines read: 1
+sign read: MDA, sign cpu: MDA
+Size already read: 2
+Code was read
+ip: 0, Size: 2
+cmd_code wo mask: 0
+before CPUDtor
+before stackDtors
+before free
+after free
+between stackDtors
+before free
+after free
+after stackDtors
+Finish running
+
+----------DISASM----------
+disasm created
+Lines read: 1
+sign read: MDA, sign cpu: MDA
+Size already read: 2
+Code was read
+ip: 0, Size: 2
+disasm ip: 0
+cmd_code wo mask: 0
+start creating new node
+start strncpy
+finish strncpy
+finish creating new node
+No argument of cmd
+disasm ip: 1
+cmd_code wo mask: 0
+start creating new node
+start strncpy
+finish strncpy
+finish creating new node
+No argument of cmd
+end of cycle
+
+
+----------CmdList Dump----------
+List size: 2
+
+~~~~~~~HLT~~~~~~~
+bytesize: 1
+bytecode: Ã
+byteaddress: 1
+
+~~~~~~~HLT~~~~~~~
+bytesize: 1
+bytecode: Ã
+byteaddress: 1
+
+----------Finish CmdList Dump----------
+Finish disassembling
+cursor: 1
+cursor: 2
+
+
+------------------------CodeBufDump------------------------
+
+c3 c3 
+--------------------Finish CodeBufDump--------------------
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+--------------------Finish program--------------------

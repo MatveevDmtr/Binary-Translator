@@ -1,5 +1,5 @@
 #include "cpu.h"
-#include "../Processor_main/ProcessorConfig.h"
+#include "../ProcessorConfig/ProcessorConfig.h"
 
 /*static char* CpuErrorNames[] {
     "Wrong signature",
@@ -68,7 +68,7 @@ int Execute(CPU* cpu)
 
         switch(cpu->code[cpu->ip] & CMD_MASK)
         {
-            #include "../codegen/CodeGeneration.h"
+            #include "../ProcessorCodeGen/ProcessorCodeGen.h"
 
             default:
 

@@ -1,15 +1,16 @@
-#include "../cpu/cpu.h"
-#include "disassembler.h"
-#include "../textbufs/textbufs.h"
+#include "../../Processor/cpu/cpu.h"
+#include "parser.h"
+#include "../../Common/textbufs/textbufs.h"
 #include "../x86_commands/x86_commands.h"
-
-const size_t DEFAULT_BUFSIZE = 50;
 
 #undef DEF_CMD
 
-#define DEF_CMD(name, num, arg, nasm, ...)                \
+#define DEF_CMD(name, num, arg, bytecode, bytesize, ...)  \
     case num:                                             \
-        PutCmd(disasm, #name);                            \
+        log("start creating new node\n");                 \
+        NewNode(cmdlist, #name, bytesize, 0, bytecode);   \
+        log("finish creating new node\n");                \
+        disasm->ip++;                                     \
         switch (arg)                                      \
         {                                                 \
             case 2:                                       \
@@ -38,7 +39,7 @@ const char* ASM_FILE_NAME_DISASM = "result/bytecodes/ASM.txt";
 
 const int MAX_LEN_CMD = 6;
 
-int MakeReadableCode()
+cmdlist_t* CreateCmdList()
 {
     log("\n----------DISASM----------\n");
 
@@ -50,30 +51,22 @@ int MakeReadableCode()
 
     log("Code was read\n");
 
-    codebuf_t codebuf = {};
-    CodeBufCtor(&codebuf);
+    static cmdlist_t cmdlist = {.head = nullptr,
+                                .tail = nullptr,
+                                .size = 0};
 
-    if (Disassemble(&disasm, &codebuf))
+    if (ParseByteCode(&disasm, &cmdlist))
     {
         print_log(FRAMED, "EXECUTION ERROR");
     }
 
-    WriteUserCode(&disasm, "result/Disassembled.txt");
+    CmdListDump(&cmdlist);
+
+    //WriteUserCode(&disasm, "result/Disassembled.txt");
 
     log("Finish disassembling\n");
 
-    return 0;
-}
-
-int CodeBufCtor(codebuf_t* codebuf)
-{
-    codebuf->buf = (char*)(calloc(DEFAULT_BUFSIZE, sizeof(char)));
-    Assert(codebuf->buf == nullptr);
-
-    codebuf->cursor = 0;
-    codebuf->capacity = DEFAULT_BUFSIZE;
-
-    return 0;
+    return &cmdlist;
 }
 
 // void Push_Handler(Byte_Code_Node* byte_node, x86_Nodes_List* x86_list, int* code_size)
@@ -81,7 +74,7 @@ int CodeBufCtor(codebuf_t* codebuf)
 //     if (byte_node->mem_arg.has_arg)
 //     {
 //         SET_COMAND(PUSH_R15_OFFSET);
-//         SET_IMM_ARG_MEM();                      // ïîñëå ïîëíîé òðàíñëÿöèè îáíîâèòü àäðåñà íà + code size
+//         SET_IMM_ARG_MEM();                      // ????? ?????? ?????????? ???????? ?????? ?? + code size
 //     }
 
 //     else
@@ -93,6 +86,60 @@ int CodeBufCtor(codebuf_t* codebuf)
 //     NEXT_NODE();
 // }
 
+
+cmd_t* NewNode(cmdlist_t* cmdlist, const char* name, size_t bytesize, size_t byteadr, size_t bytecode)
+{
+    cmd_t* cmd = (cmd_t*) calloc (1, sizeof(cmd_t));
+    if  (cmd == nullptr)
+    {
+        print_log(FRAMED, "AllocationError: calloc in NewNode returned nullptr");
+    }
+    cmd->name     = name;
+    cmd->bytesize = bytesize;
+
+    log("start strncpy\n");
+    *(u_int64_t*) cmd->bytecode = bytecode;
+    log("finish strncpy\n");
+
+    if (cmdlist->tail != nullptr)   
+    {
+        cmdlist->tail->next = cmd;
+        cmd->byteadr = cmdlist->tail->byteadr + cmd->byteadr;
+    }
+    else
+    {
+        cmdlist->head = cmd;
+        cmd->byteadr = cmd->bytesize;
+    }
+    cmdlist->tail = cmd;
+
+    cmdlist->size++;
+
+    return cmd;
+}
+
+int CmdListDump(cmdlist_t* cmdlist)
+{
+    Assert(cmdlist == nullptr);
+    log("\n\n----------CmdList Dump----------\n");
+    log("List size: %zd\n\n", cmdlist->size);
+
+    cmd_t* node = cmdlist->head;
+
+    for (size_t i = 0; i < cmdlist->size; i++)
+    {
+        log("~~~~~~~%s~~~~~~~\n", node->name);
+        log("bytesize: %zx\n", node->bytesize);
+        log("bytecode: %s\n", node->bytecode);
+        log("byteaddress: %zx\n", node->byteadr);
+        log("\n");
+        node = node->next;
+    }
+
+    log("----------Finish CmdList Dump----------\n");
+
+    return 0;
+}
 
 int PutCmd(disasm_t* disasm, const char* cmd_name)
 {
@@ -165,7 +212,7 @@ int PutStackCmd(disasm_t* disasm)
 }
 
 
-int Disassemble(disasm_t* disasm, codebuf_t* codebuf)
+int ParseByteCode(disasm_t* disasm, cmdlist_t* cmdlist)
 {
     Assert(disasm == NULL);
 
@@ -178,7 +225,7 @@ int Disassemble(disasm_t* disasm, codebuf_t* codebuf)
 
         switch(disasm->asm_code[disasm->ip] & CMD_MASK)
         {
-            #include "../codegen/CodeGeneration.h"
+            #include "../BinTransCodeGen/BinTransCodeGen.h"
 
             default:
 
@@ -276,11 +323,4 @@ int getCodeForDisasm(disasm_t* disasm)
     fclose(file_asm);
 
     return 0;
-}
-
-int WriteByteCode(codebuf_t* codebuf, char bytecode)
-{
-    codebuf->buf[codebuf->cursor++] = bytecode;
-
-    return codebuf->cursor;
 }
