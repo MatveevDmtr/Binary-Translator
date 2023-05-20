@@ -14,7 +14,7 @@ int Execute(cmdlist_t* cmdlist)
     
     FillCodeBuf(&codebuf, cmdlist);
 
-    //char* buffer = codebuf.buf;
+    char* buffer = codebuf.buf;
 
     CodeBufDump(&codebuf);
 
@@ -96,7 +96,7 @@ int CodeBufDump(codebuf_t* codebuf)
     log("\n\n------------------------CodeBufDump------------------------\n\n");
     for(int i = 0; i < codebuf->cursor; i++)
     {
-        log("%zx ", *(u_char*)(codebuf->buf + i));
+        log("%2zx ", *(u_char*)(codebuf->buf + i));
         if (i % 16 == 15)   log("\n");
     }
     log("\n--------------------Finish CodeBufDump---------------------\n\n");

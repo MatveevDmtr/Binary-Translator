@@ -1,4 +1,9 @@
-PUSH rcx
-POP rcx
+PUSH rax
+PUSH 25
+COPY
+SQRT
+POP rax
+POP rax
+POP rax
 HLT
 HLT

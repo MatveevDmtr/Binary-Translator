@@ -40,7 +40,7 @@
 }
 
 DEF_CMD(HLT, 0, 0, x86_RET, SIZE_x86_RET, 
-NewNode(cmdlist, CMD_RET, SIZE_x86_RET, 0, x86_RET);
+NewNode(cmdlist, CMD_RET, SIZE_x86_RET, x86_RET);
 disasm->ip++;
 )
 
@@ -53,19 +53,20 @@ PopHandler(disasm, cmdlist);
 )
 
 DEF_CMD(ADD , 3, 0, 0, 0,
-Skip();//ArythmeticHandler();
+log("ADD found\n");
+ArythmeticHandler(disasm, cmdlist, CMD_ADD);
 )
 
 DEF_CMD(SUB , 4, 0, 0, 0,
-Skip();//ArythmeticHandler();
+ArythmeticHandler(disasm, cmdlist, CMD_SUB);
 )
 
 DEF_CMD(MUL , 5, 0, 0, 0,
-Skip();
+ArythmeticHandler(disasm, cmdlist, CMD_MUL);
 )
 
 DEF_CMD(DIV , 6, 0, 0, 0,
-Skip();
+ArythmeticHandler(disasm, cmdlist, CMD_DIV);
 )
 
 DEF_CMD(IN  , 7, 0, 0, 0,
@@ -121,16 +122,16 @@ Skip();
 )
 
 DEF_CMD(RET, 20, 0, x86_RET, SIZE_x86_RET, 
-NewNode(cmdlist, CMD_RET, SIZE_x86_RET, 0, x86_RET);
+NewNode(cmdlist, CMD_RET, SIZE_x86_RET, x86_RET);
 disasm->ip++;
 )
 
 DEF_CMD(COPY, 21, 0, 0, 0,
-Skip();
+CopyHandler(disasm, cmdlist);
 )
 
 DEF_CMD(SQRT, 22, 0, 0, 0,
-Skip();
+ArythmeticHandler(disasm, cmdlist, CMD_SQRT);
 )
 
 DEF_CMD(CLEAR, 23, 0, 0, 0,

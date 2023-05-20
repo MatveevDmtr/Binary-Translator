@@ -10,14 +10,6 @@ enum Registers
     rsp,
     rsi,
     rdi,
-    r8,
-    r9,
-    r10,
-    r11,
-    r12,
-    r13,
-    r14,
-    r15
 };
 
 enum x86_Commands : u_int64_t
@@ -122,7 +114,7 @@ enum x86_Commands_Size
     SIZE_MOV_RSP_RBP = 3,
     SIZE_AND_RSP_FF = 4,
     SIZE_MOV_XMM_RSP = 6,
-    SIZE_IMM = 4,
+    SIZE_IMM = 8,
 };
 
 enum COND_JMPS
@@ -135,7 +127,7 @@ enum COND_JMPS
     JLE_MASK = 0x8e,
 };
 
-enum X86_CMDS
+enum X86_CMD_NAMES
 {
     CMD_PUSH = 'hsup',
     CMD_POP  = 'pop',
@@ -156,4 +148,7 @@ enum X86_CMDS
     CMD_JNE  = 'enj',
     CMD_SQRT = 'TRQS', //oh fuck
     CMD_IMM  = 'mmi',
+    CMD_CVT  = 'tvc',
+    CMD_DIVXMM = 'xvid',
+    CMD_MULXMM = 'xlum',
 };

@@ -1,5 +1,6 @@
 #include "../../Processor/cpu/cpu.h"
 #include "parser.h"
+#include "DSL_for_parser.h"
 #include "../../Common/textbufs/textbufs.h"
 #include "../x86_commands/x86_commands.h"
 
@@ -92,7 +93,7 @@ cmdlist_t* CreateCmdList()
 // }
 
 
-cmd_t* NewNode(cmdlist_t* cmdlist, int name, size_t bytesize, size_t byteadr, uint64_t bytecode)
+cmd_t* NewNode(cmdlist_t* cmdlist, int name, size_t bytesize, uint64_t bytecode)
 {
     cmd_t* cmd = (cmd_t*) calloc (1, sizeof(cmd_t));
     if  (cmd == nullptr)
@@ -171,24 +172,26 @@ int PushHandler(disasm_t* disasm, cmdlist_t* cmdlist)
     {
         if (disasm->asm_code[cmd_ip] & ARG_IMMED)
         {
-            cmd_t* push_node = NewNode(cmdlist, CMD_PUSH, SIZE_PUSH_R15_OFFSET, 0, PUSH_R15_OFFSET);
-            cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, 0, disasm->asm_code[disasm->ip++]);
+            cmd_t* push_node = NewNode(cmdlist, CMD_PUSH, SIZE_PUSH_R15_OFFSET, PUSH_R15_OFFSET);
+            cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, disasm->asm_code[disasm->ip++]);
         }
         
     }
 
     else if (disasm->asm_code[cmd_ip] & ARG_REG)
     {
-        cmd_t* push_node = NewNode(cmdlist, CMD_PUSH, SIZE_PUSH_REG, 0, PUSH_REG);
+        cmd_t* push_node = NewNode(cmdlist, CMD_PUSH, SIZE_PUSH_REG, PUSH_REG);
         int reg_num = (disasm->asm_code)[disasm->ip++];
         push_node->bytecode |= reg_num;
     }
 
     else if (disasm->asm_code[cmd_ip] & ARG_IMMED)
     {
-        cmd_t* mov_node = NewNode(cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, 0, MOV_REG_IMM);
-        mov_node->bytecode |= r14 << 8;
-        cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, 0, disasm->asm_code[disasm->ip++]);
+        cmd_t* mov_node = NewNode(cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM);
+        mov_node->bytecode |= (rdi<< 8);
+        cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, disasm->asm_code[disasm->ip++]);
+        cmd_t* push_node = NewNode(cmdlist, CMD_PUSH, SIZE_PUSH_REG, PUSH_REG);
+        push_node->bytecode |= rdi;
     }
     else
     {
@@ -201,32 +204,97 @@ int PushHandler(disasm_t* disasm, cmdlist_t* cmdlist)
 
 int PopHandler(disasm_t* disasm, cmdlist_t* cmdlist)
 {
-    log("start PushHandler\n");
+    log("start PopHandler\n");
 
     size_t cmd_ip = disasm->ip++; //experiment
 
-    log("code of push: %zd\n", disasm->asm_code[cmd_ip]);
+    log("code of pop: %zd\n", disasm->asm_code[cmd_ip]);
 
     if (disasm->asm_code[cmd_ip] & ARG_RAM)
     {
         if (disasm->asm_code[cmd_ip] & ARG_IMMED)
         {
-            cmd_t* pop_node = NewNode(cmdlist, CMD_POP, SIZE_POP_R15_OFFSET, 0, POP_R15_OFFSET);
-            cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, 0, disasm->asm_code[disasm->ip++]);
+            cmd_t* pop_node = NewNode(cmdlist, CMD_POP, SIZE_POP_R15_OFFSET, POP_R15_OFFSET);
+            cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, disasm->asm_code[disasm->ip++]);
         }
         
     }
     else if (disasm->asm_code[cmd_ip] & ARG_REG)
     {
-        cmd_t* pop_node = NewNode(cmdlist, CMD_POP, SIZE_POP_REG, 0, POP_REG);
+        cmd_t* pop_node = NewNode(cmdlist, CMD_POP, SIZE_POP_REG, POP_REG);
         int reg_num = (disasm->asm_code)[disasm->ip++];
         pop_node->bytecode |= reg_num;
     }
     else
     {
-        print_log(FRAMED, "Invalid Pop argument\n");
+        print_log(FRAMED, "Invalid Pop argument");
     }
     log("finish PutStackArg\n");
+
+    return 0;
+}
+
+int ArythmeticHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op)
+{
+    log("start ArythmeticHandler\n");
+
+    switch (op)
+    {
+        case CMD_ADD:
+            DO_POP_RAX;
+            DO_POP_RBX;
+            DO_ADD_RAX_RBX;
+            DO_PUSH_RAX;
+            break;
+
+        case CMD_SUB:
+            DO_POP_RAX;
+            DO_POP_RBX;
+            DO_SUB_RAX_RBX;
+            DO_PUSH_RAX;
+            break;
+
+        case CMD_MUL:
+            DO_POP_XMM0;
+            DO_LOAD_1000_TO_XMM1;
+            DO_DIV_XMM0_XMM1;
+            DO_POP_XMM1;
+            DO_MUL_XMM0_XMM1;
+            DO_PUSH_XMM0;
+            break;
+
+        case CMD_DIV:
+            DO_POP_XMM0;
+            DO_POP_XMM1;
+            DO_DIV_XMM0_XMM1;
+            DO_LOAD_1000_TO_XMM1;
+            DO_MUL_XMM0_XMM1;
+            DO_PUSH_XMM0;
+            break;
+
+        case CMD_SQRT:
+            DO_POP_XMM0;
+            DO_SQRT_XMM0;
+            DO_PUSH_XMM0;
+            break;
+
+        default:
+            print_log(FRAMED, "Invalid Arythmetic operation");
+            break;
+    }
+
+    disasm->ip++;
+
+    return 0;
+}
+
+int CopyHandler(disasm_t* disasm, cmdlist_t* cmdlist)
+{
+    DO_POP_RAX;
+    DO_PUSH_RAX;
+    DO_PUSH_RAX;
+    
+    disasm->ip++;
 
     return 0;
 }
