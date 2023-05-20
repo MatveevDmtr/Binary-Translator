@@ -60,5 +60,9 @@ int getCodeForDisasm(disasm_t* disasm);
 
 cmd_t* NewNode(cmdlist_t* cmdlist, int name, size_t bytesize, size_t byteadr, uint64_t bytecode);
 
+int PushHandler(disasm_t* disasm, cmdlist_t* cmdlist);
+
+int PopHandler(disasm_t* disasm, cmdlist_t* cmdlist);
+
 
 #endif //DISASSEMBLER_H_INCLUDED

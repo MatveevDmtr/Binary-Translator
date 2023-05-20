@@ -49,7 +49,7 @@ PushHandler(disasm, cmdlist);
 )
 
 DEF_CMD(POP, 2, 2, 0, 0,
-Skip();//PopHandler();
+PopHandler(disasm, cmdlist);
 )
 
 DEF_CMD(ADD , 3, 0, 0, 0,

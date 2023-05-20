@@ -155,5 +155,5 @@ enum X86_CMDS
     CMD_JE   = 'ej',
     CMD_JNE  = 'enj',
     CMD_SQRT = 'TRQS', //oh fuck
-    CMD_IMM  = 'MMI',
+    CMD_IMM  = 'mmi',
 };

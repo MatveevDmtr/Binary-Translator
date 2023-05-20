@@ -1,3 +1,4 @@
-PUSH [15]
+PUSH rcx
+POP rcx
 HLT
 HLT

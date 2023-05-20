@@ -199,6 +199,38 @@ int PushHandler(disasm_t* disasm, cmdlist_t* cmdlist)
     return 0;
 }
 
+int PopHandler(disasm_t* disasm, cmdlist_t* cmdlist)
+{
+    log("start PushHandler\n");
+
+    size_t cmd_ip = disasm->ip++; //experiment
+
+    log("code of push: %zd\n", disasm->asm_code[cmd_ip]);
+
+    if (disasm->asm_code[cmd_ip] & ARG_RAM)
+    {
+        if (disasm->asm_code[cmd_ip] & ARG_IMMED)
+        {
+            cmd_t* pop_node = NewNode(cmdlist, CMD_POP, SIZE_POP_R15_OFFSET, 0, POP_R15_OFFSET);
+            cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, 0, disasm->asm_code[disasm->ip++]);
+        }
+        
+    }
+    else if (disasm->asm_code[cmd_ip] & ARG_REG)
+    {
+        cmd_t* pop_node = NewNode(cmdlist, CMD_POP, SIZE_POP_REG, 0, POP_REG);
+        int reg_num = (disasm->asm_code)[disasm->ip++];
+        pop_node->bytecode |= reg_num;
+    }
+    else
+    {
+        print_log(FRAMED, "Invalid Pop argument\n");
+    }
+    log("finish PutStackArg\n");
+
+    return 0;
+}
+
 int HandleRegsDisasm(disasm_t* disasm, size_t reg_num, cmd_t* node)
 {
     char reg_name[MAX_LEN_REG_NAME] = {'r', 'z', 'x'};
