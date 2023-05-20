@@ -49,8 +49,9 @@ int FillCodeBuf(codebuf_t* codebuf, cmdlist_t* cmdlist)
             int a = 0;
             //CodeBufResize();
         }
-
-        strncpy(codebuf->buf + codebuf->cursor, node->bytecode, 5);
+        log("try to write bytecode\n");
+        *((uint64_t*)(codebuf->buf + codebuf->cursor)) = node->bytecode;
+        log("bytecode written successfully\n");
 
         codebuf->cursor += node->bytesize;
 

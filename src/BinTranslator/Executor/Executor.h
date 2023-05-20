@@ -2,6 +2,7 @@
 #define EXECUTOR_H_INCLUDED
 
 #include <stdio.h>
+#include <stdint.h>
 
 #include "../../Common/logging/logging.hpp"
 

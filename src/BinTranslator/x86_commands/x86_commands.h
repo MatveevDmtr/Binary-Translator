@@ -1,3 +1,5 @@
+#pragma GCC diagnostic ignored "-Wmultichar"
+
 enum Registers
 {
     rax,
@@ -120,7 +122,7 @@ enum x86_Commands_Size
     SIZE_MOV_RSP_RBP = 3,
     SIZE_AND_RSP_FF = 4,
     SIZE_MOV_XMM_RSP = 6,
-
+    SIZE_IMM = 4,
 };
 
 enum COND_JMPS
@@ -131,4 +133,27 @@ enum COND_JMPS
     JGE_MASK = 0x8d,
     JL_MASK = 0x8c,
     JLE_MASK = 0x8e,
+};
+
+enum X86_CMDS
+{
+    CMD_PUSH = 'hsup',
+    CMD_POP  = 'pop',
+    CMD_MOV  = 'vom',
+    CMD_IN   = 'NI', //oh fuck
+    CMD_OUT  = 'TUO', //oh fuck
+    CMD_RET  = 'ter',
+    CMD_ADD  = 'dda',
+    CMD_SUB  = 'bus',
+    CMD_MUL  = 'lum',
+    CMD_DIV  = 'vid',
+    CMD_DEG  = 'GED', //oh fuck
+    CMD_JB   = 'bj',
+    CMD_JA   = 'aj',
+    CMD_JBE  = 'ebj',
+    CMD_JAE  = 'eaj',
+    CMD_JE   = 'ej',
+    CMD_JNE  = 'enj',
+    CMD_SQRT = 'TRQS', //oh fuck
+    CMD_IMM  = 'MMI',
 };

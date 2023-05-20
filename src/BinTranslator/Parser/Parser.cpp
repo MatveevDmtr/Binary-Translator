@@ -7,30 +7,35 @@
 
 #define DEF_CMD(name, num, arg, bytecode, bytesize, ...)  \
     case num:                                             \
-        log("start creating new node\n");                 \
-        NewNode(cmdlist, #name, bytesize, 0, bytecode);   \
-        log("finish creating new node\n");                \
-        disasm->ip++;                                     \
-        switch (arg)                                      \
+        log("start translating cmd\n");                   \
+        __VA_ARGS__                                       \
+        disasm->buf_code[disasm->cursor++] = '\n';        \
+    break;
+
+//PutStackCmd(disasm);
+
+//switch (arg)                                            \
         {                                                 \
             case 2:                                       \
                 log("2 args in case\n");                  \
-                PutStackCmd(disasm);                      \
+                                                          \
                 break;                                    \
             case 1:                                       \
                 WRITE_NUMBER;                             \
                 break;                                    \
             default:                                      \
                 log("No argument of cmd\n");              \
+                __VA_ARGS__                               \
+                log("finish VA_ARGS\n");                  \
         }                                                 \
-        disasm->buf_code[disasm->cursor++] = '\n';        \
-    break;
 
 #define WRITE_NUMBER                                      \
 {                                                         \
                                                           \
         PutNumToCharBuf(disasm);                          \
 }
+
+
 
 
 const char* DISASM_SIGNATURE = "MDA";
@@ -87,7 +92,7 @@ cmdlist_t* CreateCmdList()
 // }
 
 
-cmd_t* NewNode(cmdlist_t* cmdlist, const char* name, size_t bytesize, size_t byteadr, size_t bytecode)
+cmd_t* NewNode(cmdlist_t* cmdlist, int name, size_t bytesize, size_t byteadr, uint64_t bytecode)
 {
     cmd_t* cmd = (cmd_t*) calloc (1, sizeof(cmd_t));
     if  (cmd == nullptr)
@@ -97,19 +102,17 @@ cmd_t* NewNode(cmdlist_t* cmdlist, const char* name, size_t bytesize, size_t byt
     cmd->name     = name;
     cmd->bytesize = bytesize;
 
-    log("start strncpy\n");
-    *(u_int64_t*) cmd->bytecode = bytecode;
-    log("finish strncpy\n");
+    cmd->bytecode = bytecode;
 
     if (cmdlist->tail != nullptr)   
     {
         cmdlist->tail->next = cmd;
-        cmd->byteadr = cmdlist->tail->byteadr + cmd->byteadr;
+        cmd->byteadr = cmdlist->tail->byteadr + cmdlist->tail->bytesize;
     }
     else
     {
         cmdlist->head = cmd;
-        cmd->byteadr = cmd->bytesize;
+        cmd->byteadr = 0;
     }
     cmdlist->tail = cmd;
 
@@ -128,9 +131,9 @@ int CmdListDump(cmdlist_t* cmdlist)
 
     for (size_t i = 0; i < cmdlist->size; i++)
     {
-        log("~~~~~~~%s~~~~~~~\n", node->name);
+        log("~~~~~~~%.4s~~~~~~~\n", &(node->name));
         log("bytesize: %zx\n", node->bytesize);
-        log("bytecode: %s\n", node->bytecode);
+        log("bytecode: %zx\n", node->bytecode);
         log("byteaddress: %zx\n", node->byteadr);
         log("\n");
         node = node->next;
@@ -156,7 +159,47 @@ int PutCmd(disasm_t* disasm, const char* cmd_name)
     return 0;
 }
 
-int HandleRegsDisasm(disasm_t* disasm, size_t reg_num)
+int PushHandler(disasm_t* disasm, cmdlist_t* cmdlist)
+{
+    log("start PushHandler\n");
+
+    size_t cmd_ip = disasm->ip++; //experiment
+
+    log("code of push: %zd\n", disasm->asm_code[cmd_ip]);
+
+    if (disasm->asm_code[cmd_ip] & ARG_RAM)
+    {
+        if (disasm->asm_code[cmd_ip] & ARG_IMMED)
+        {
+            cmd_t* push_node = NewNode(cmdlist, CMD_PUSH, SIZE_PUSH_R15_OFFSET, 0, PUSH_R15_OFFSET);
+            cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, 0, disasm->asm_code[disasm->ip++]);
+        }
+        
+    }
+
+    else if (disasm->asm_code[cmd_ip] & ARG_REG)
+    {
+        cmd_t* push_node = NewNode(cmdlist, CMD_PUSH, SIZE_PUSH_REG, 0, PUSH_REG);
+        int reg_num = (disasm->asm_code)[disasm->ip++];
+        push_node->bytecode |= reg_num;
+    }
+
+    else if (disasm->asm_code[cmd_ip] & ARG_IMMED)
+    {
+        cmd_t* mov_node = NewNode(cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, 0, MOV_REG_IMM);
+        mov_node->bytecode |= r14 << 8;
+        cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, 0, disasm->asm_code[disasm->ip++]);
+    }
+    else
+    {
+        print_log(FRAMED, "Invalid Push argument\n");
+    }
+    log("finish PutStackArg\n");
+
+    return 0;
+}
+
+int HandleRegsDisasm(disasm_t* disasm, size_t reg_num, cmd_t* node)
 {
     char reg_name[MAX_LEN_REG_NAME] = {'r', 'z', 'x'};
 
@@ -184,7 +227,12 @@ int PutNumToCharBuf(disasm_t* disasm)
     return 0;
 }
 
-int PutStackCmd(disasm_t* disasm)
+int Skip()
+{
+    return 0;
+}
+
+int PutStackCmd(disasm_t* disasm, cmd_t* node)
 {
     log("start PutStackArg\n");
 
@@ -196,7 +244,7 @@ int PutStackCmd(disasm_t* disasm)
 
     if (disasm->asm_code[cmd_ip] & ARG_REG)
     {
-        HandleRegsDisasm(disasm, (disasm->asm_code)[disasm->ip++]);
+        HandleRegsDisasm(disasm, (disasm->asm_code)[disasm->ip++], node);
     }
 
     if (disasm->asm_code[cmd_ip] & ARG_IMMED)

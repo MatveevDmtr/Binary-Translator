@@ -1,7 +1,7 @@
 # Переменная CC указывает компилятор, используемый для сборки
 CC=g++
 #В переменной CFLAGS лежат флаги, которые передаются компилятору
-CFLAGS=-c -fno-omit-frame-pointer -std=c++14 -DLOGGING
+CFLAGS=-c -fno-omit-frame-pointer -std=c++14 -DLOGGING -Wno-multichar
 OPTFLAG=-O0
 MY_OPT=
 

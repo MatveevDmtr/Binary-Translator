@@ -7,56 +7,164 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 --------------------Assembler--------------------
 START IN DEFAULT MODE
 try to read file
-File size = 8
-Size of file is: 9 bytes.
+File size = 18
+Size of file is: 19 bytes.
 Type_calloc: char
 Sizeof type: 8
-Calloc returned: 0x559bb83c4a90
+Calloc returned: 0x55b360d50a90
 
-buffer size: 9
-fread number of symbols: 8
-Num lines: 2
+buffer size: 19
+fread number of symbols: 18
+Num lines: 3
 Type_calloc: type_prop_line
 Sizeof type: 8
-Calloc returned: 0x559bb83c3a80
+Calloc returned: 0x55b360d4fa80
 
 Type_calloc: int
 Sizeof type: 8
-Calloc returned: 0x559bb83c3ab0
+Calloc returned: 0x55b360d4fac0
 
+Command found: PUSH
+cmd_code: 1
+ptr_arg: 0x55b360d50a95, first sym to scan: [
+case d
 Command found: HLT
 Command found: HLT
 
 
 ^^^^^^^ START ASM CODE ^^^^^^^
 
-ASM[0]: 0
-ASM[1]: 0
+ASM[0]: 161
+ASM[1]: 15
+ASM[2]: 0
+ASM[3]: 0
 
 =======  END ASM CODE =======
 
+Command found: PUSH
+cmd_code: 1
+ptr_arg: 0x55b360d50a95, first sym to scan: [
+case d
 Command found: HLT
 Command found: HLT
 
 
 ^^^^^^^ START ASM CODE ^^^^^^^
 
-ASM[0]: 0
-ASM[1]: 0
+ASM[0]: 161
+ASM[1]: 15
+ASM[2]: 0
+ASM[3]: 0
 
 =======  END ASM CODE =======
 
 length signature: 3
-written size: 2
+written size: 4
 File is written successfully
 
 ----------CPU----------
 stk1 created
 Lines read: 1
 sign read: MDA, sign cpu: MDA
-Size already read: 2
+Size already read: 4
 Code was read
-ip: 0, Size: 2
+ip: 0, Size: 4
+cmd_code wo mask: 161
+start GetArg
+code of push: 161
+
+
+*********** Start [FULL MASTER] Dump **********
+
+int Execute(CPU*) at src/Processor/cpu/cpu.cpp (line 84):
+CPU struct at [0x0x7ffd956bed40]
+Signature:             0x55b35f05437b
+Code:                  0x55b360d4fd50
+Size of code:          4
+Registers:             0x55b360d4fd70
+RAM:                   0x55b360d51ac0
+Stack:                 0x7ffd956bed80
+Stack of Calls:        0x7ffd956bedf0
+Instruction Pointer:   2
+
+	 code[0] =         161 = a1
+	 code[1] =          15 = f
+	 code[2] =           0 = 0
+	 code[3] =           0 = 0
+
+
+reg[0] = 0
+reg[1] = 0
+reg[2] = 0
+reg[3] = 0
+reg[4] = 0
+reg[5] = 0
+reg[6] = 0
+reg[7] = 0
+reg[8] = 0
+reg[9] = 0
+reg[10] = 0
+reg[11] = 0
+reg[12] = 0
+reg[13] = 0
+reg[14] = 0
+reg[15] = 0
+reg[16] = 0
+reg[17] = 0
+reg[18] = 0
+reg[19] = 0
+reg[20] = 0
+reg[21] = 0
+reg[22] = 0
+reg[23] = 0
+reg[24] = 0
+reg[25] = 0
+reg[26] = 0
+reg[27] = 0
+reg[28] = 0
+reg[29] = 0
+
+
+++++++++++ Start Stack Dump ++++++++++
+
+int FuckingCPUDump(CPU*, const char*, const char*, int) at src/Processor/cpu/cpu.cpp (line 164):
+Stack [0x0x55b360d4fcd8] 
+In int FuckingDump(stack_t*, const char*, const char*, int) (line 328):
+------
+| OK |
+------
+Originally 'stk1' from int Run() at src/Processor/cpu/cpu.cpp (line 26): 
+
+Pointer:              0x55b360d4fcd8
+Size:                 1
+Capacity:             10
+DeadInside:           0
+PtrStackLeftCannary:  0x55b360d4fcd0
+PtrStackRightCannary: 0x55b360d4fd00
+StackHashSum:         894433881
+StructHashSum:        1657468046
+
+StackLeftCannary:      dedfed15
+StackRightCannary:     ca115fa1
+{
+	 data[0] =           0 = (nil)
+	 data[1] =           0 = (nil)
+	 data[2] =           0 = (nil)
+	 data[3] =           0 = (nil)
+	 data[4] =           0 = (nil)
+	 data[5] =           0 = (nil)
+	 data[6] =           0 = (nil)
+	 data[7] =           0 = (nil)
+	 data[8] =           0 = (nil)
+	 data[9] =           0 = (nil)
+}
+
+
+---------- Finish Dump ----------
+
+
+---------- Finish [FULL MASTER] Dump ----------
+
 cmd_code wo mask: 0
 before CPUDtor
 before stackDtors
@@ -72,50 +180,65 @@ Finish running
 disasm created
 Lines read: 1
 sign read: MDA, sign cpu: MDA
-Size already read: 2
+Size already read: 4
 Code was read
-ip: 0, Size: 2
+ip: 0, Size: 4
 disasm ip: 0
+cmd_code wo mask: a1
+start translating cmd
+start PushHandler
+code of push: 161
+finish PutStackArg
+disasm ip: 2
 cmd_code wo mask: 0
-start creating new node
-start strncpy
-finish strncpy
-finish creating new node
-No argument of cmd
-disasm ip: 1
+start translating cmd
+disasm ip: 3
 cmd_code wo mask: 0
-start creating new node
-start strncpy
-finish strncpy
-finish creating new node
-No argument of cmd
+start translating cmd
 end of cycle
 
 
 ----------CmdList Dump----------
-List size: 2
+List size: 4
 
-~~~~~~~HLT~~~~~~~
-bytesize: 1
-bytecode: Ã
-byteaddress: 1
+~~~~~~~push~~~~~~~
+bytesize: 3
+bytecode: b7ff41
+byteaddress: 0
 
-~~~~~~~HLT~~~~~~~
+~~~~~~~IMM~~~~~~~
+bytesize: 4
+bytecode: f
+byteaddress: 3
+
+~~~~~~~ret~~~~~~~
 bytesize: 1
-bytecode: Ã
-byteaddress: 1
+bytecode: c3
+byteaddress: 7
+
+~~~~~~~ret~~~~~~~
+bytesize: 1
+bytecode: c3
+byteaddress: 8
 
 ----------Finish CmdList Dump----------
 Finish disassembling
-cursor: 1
-cursor: 2
+try to write bytecode
+bytecode written successfully
+cursor: 3
+try to write bytecode
+bytecode written successfully
+cursor: 7
+try to write bytecode
+bytecode written successfully
+cursor: 8
+try to write bytecode
+bytecode written successfully
+cursor: 9
 
 
 ------------------------CodeBufDump------------------------
 
-c3 c3 
---------------------Finish CodeBufDump--------------------
+41 ff b7 f 0 0 0 c3 c3 
+--------------------Finish CodeBufDump---------------------
 
-
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
---------------------Finish program--------------------
