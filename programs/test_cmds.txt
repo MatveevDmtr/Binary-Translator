@@ -1,12 +1,14 @@
 name label 0
 PUSH rax
-PUSH 25
-PUSH 15
-JB label
+
+PUSH [15]
+POP [15]
+
 push 11
 push 12
-add
-lbl label
+ADD
+POP rax
+
 PUSH rbx
 POP rbx
 POP rax

@@ -1,5 +1,7 @@
 #pragma GCC diagnostic ignored "-Wmultichar"
 
+#include <stdint.h>
+
 enum Registers
 {
     rax,
@@ -12,13 +14,27 @@ enum Registers
     rdi,
 };
 
-enum x86_Commands : u_int64_t
+enum R_REGS : uint64_t {
+    r8,
+    r9,
+    r10,
+    r11,
+    r12,
+    r13,
+    r14,
+    r15,
+};
+
+enum x86_Commands : uint64_t
 {
     // mov r_x, imm
     MOV_REG_IMM = 0xb848,                // "|" with shifted by 8 reg mask
 
     MOV_REG_REG = 0xc08948,             // first reg - "|" with shifted by 19 mask
                                         // second reg - "|" with shifted by 16 mask
+
+    MOV_R_REG_IMM = 0xb849,             // "|" with shifted by 8 r_reg mask, 
+                                        // followed with 64bit abs ptr of memory
 
     // mov r_x, [r15 + offset]
     MOV_REG_R15_OFFSET = 0x878b49,      // "|" with shifted left by 19 reg
@@ -79,11 +95,18 @@ enum x86_Commands : u_int64_t
     AND_RSP_FF = 0xF0E48348,
 
     MOV_XMM_RSP = 0x002400100FF2,       // movsd xmm0-4, [rsp]
+    MOV_RAX_RSI_OFFSET = 0x068b48,
+    MOV_RSI_OFFSET_RAX = 0x068948,
+    MOV_R14_IMM = 0xbe49,
+    ADD_RAX_R14 = 0xf0014c,
 };
 
 enum x86_Commands_Size
 {
+    SIZE_ADD_RAX_R14 = 3,
+    SIZE_MOV_R14_IMM = 2,
     SIZE_MOV_REG_IMM = 2,
+    SIZE_MOV_R_REG_IMM = 2, 
     SIZE_MOV_REG_REG = 3,
     SIZE_MOV_REG_R15_OFFSET = 3,
     SIZE_MOV_R15_OFFSET_REG = 3,
@@ -116,6 +139,8 @@ enum x86_Commands_Size
     SIZE_MOV_XMM_RSP = 6,
     SIZE_IMM = 8,
     SIZE_ADDR = 4,
+    SIZE_MOV_RAX_RSI_OFFSET = 3,
+    SIZE_MOV_RSI_OFFSET_RAX = 3,
 };
 
 enum X86_CMD_NAMES
@@ -144,9 +169,10 @@ enum X86_CMD_NAMES
     CMD_DIVXMM = 'xvid',
     CMD_MULXMM = 'xlum',
     CMD_CMP  = 'pmc',
+    CMD_CALL = 'llac',
 };
 
-enum COND_JMPS : u_int64_t {
+enum COND_JMPS : uint64_t {
     JE_MASK = 0x84,
     JNE_MASK = 0x85,
     JG_MASK = 0x8f,

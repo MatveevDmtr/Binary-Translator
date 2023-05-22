@@ -7,7 +7,7 @@ extern size_t      VERSION_REPEAT;
 
 extern const char* ASM_FILE_NAME;
 
-static const char*  INPUT_FILE_NAME  = "programs/test_cmds.txt";
+static const char*  INPUT_FILE_NAME  = "programs/test_call.txt";
 
 
 #endif //guard

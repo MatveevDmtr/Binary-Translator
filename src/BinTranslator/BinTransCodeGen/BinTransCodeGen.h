@@ -1,8 +1,6 @@
 #ifndef COMMANDS_FOR_CPU_H_INCLUDED
 #define COMMANDS_FOR_CPU_H_INCLUDED
 
-#define DO_JUMP        {cpu->ip = cpu->code[(cpu->ip)+1] - 2;}
-
 #define DO_POP         ({(double)StackPop(stk) / ACCURACY;})
 
 #define DO_PUSH(arg)   StackPush(stk, (int)((arg) * ACCURACY));
@@ -70,11 +68,11 @@ ArythmeticHandler(disasm, cmdlist, CMD_DIV);
 )
 
 DEF_CMD(IN  , 7, 0, 0, 0,
-Skip();
+CmdINHandler(disasm, cmdlist);
 )
 
 DEF_CMD(OUT , 8, 0, 0, 0,
-Skip();
+CmdOUTHandler(disasm, cmdlist);
 )
 
 DEF_CMD(JUMP, 9, 1, 0, 0,
@@ -118,12 +116,11 @@ Skip();
 )
 
 DEF_CMD(CALL, 19, 1, 0, 0,
-Skip();
+JumpHandler(disasm, cmdlist, CMD_CALL);
 )
 
 DEF_CMD(RET, 20, 0, x86_RET, SIZE_x86_RET, 
-NewNode(disasm, cmdlist, CMD_RET, SIZE_x86_RET, x86_RET);
-disasm->ip++;
+RetHandler(disasm, cmdlist);
 )
 
 DEF_CMD(COPY, 21, 0, 0, 0,

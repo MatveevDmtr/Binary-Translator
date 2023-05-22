@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdint.h>
 
+//#include "../Executor/Executor.h"
+
 const size_t MAX_BYTECODE_LEN = 15;
 
 typedef struct Disasm_struct
@@ -69,9 +71,19 @@ int ArythmeticHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op);
 
 int CopyHandler(disasm_t* disasm, cmdlist_t* cmdlist);
 
+int RetHandler(disasm_t* disasm, cmdlist_t* cmdlist);
+
 cmd_t* SearchCmdByIp(cmdlist_t* cmdlist, size_t ip);
 
 int FillJumpAddresses(cmdlist_t* cmdlist);
+
+int ScanNumber();
+
+int PrintNumber(int a);
+
+int CmdOUTHandler(disasm_t* disasm, cmdlist_t* cmdlist);
+
+int CmdINHandler(disasm_t* disasm, cmdlist_t* cmdlist);
 
 
 #endif //DISASSEMBLER_H_INCLUDED

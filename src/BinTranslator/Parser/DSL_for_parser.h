@@ -89,6 +89,48 @@
     DO_POP_RAX;                                                                                     \
     DO_POP_RBX;                                                                                     \
     NewNode(disasm, cmdlist, CMD_CMP, SIZE_CMP_RAX_RBX, CMP_RAX_RBX);                               \
-}                                                                                                   
+}
+
+#define DO_JUMP                                                                                     \
+{                                                                                                   \
+    NewNode(disasm, cmdlist, CMD_JMP, SIZE_x86_JMP, x86_JMP);                                       \
+    NewNode(disasm, cmdlist, CMD_IMM, SIZE_ADDR, disasm->asm_code[disasm->ip++]);                   \
+}
+
+#define DO_CALL                                                                                                           \
+{                                                                                                                         \
+    cmd_t* rax_cur_adr = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM | (rax << 8));                   \
+    cmd_t* adr_node    = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, 0);                                                  \
+    cmd_t* add_buf_adr = NewNode(disasm, cmdlist, CMD_ADD, SIZE_ADD_RAX_R14, ADD_RAX_R14);                                \
+    cmd_t* mov_node    = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_RSI_OFFSET_RAX, MOV_RSI_OFFSET_RAX);                  \
+    cmd_t* rax4_node   = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM | (rax << 8));                   \
+    cmd_t* int_node    = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, 4);                                                  \
+    cmd_t* add_node    = NewNode(disasm, cmdlist, CMD_ADD, SIZE_ADD_REG_REG, (ADD_REG_REG | (rax << 19)) | (rsi << 16));  \
+    DO_JUMP;                                                                                                              \
+    adr_node->bytecode = cmdlist->tail->byteadr + cmdlist->tail->bytesize;                                                \
+    log("RET ADR: %p\n");                                                                                                 \
+}
+
+// FIXXX!!
+#define DO_PUSH_RET_ADDR                                                                                                \
+{                                                                                                                       \
+    cmd_t* rax4_node = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM | (rax << 8));                   \
+    cmd_t* int_node  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, 4);                                                  \
+    cmd_t* sub_node  = NewNode(disasm, cmdlist, CMD_SUB, SIZE_SUB_REG_REG, (SUB_REG_REG | (rax << 19)) | (rsi << 16));  \
+    cmd_t* mov_node  = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_RAX_RSI_OFFSET, MOV_RAX_RSI_OFFSET);                  \
+    cmd_t* push_node = NewNode(disasm, cmdlist, CMD_PUSH, SIZE_PUSH_REG, PUSH_REG | rax);                               \
+}
+
+#define DO_MOV_MEM_ADDRS                                                                                        \
+{                                                                                                               \
+    cmd_t* mem_r15_node = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_R_REG_IMM, MOV_R_REG_IMM | r15 << 8);      \
+    cmd_t* adr_mem_node = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, 0);                                       \
+                                                                                                                \
+    cmd_t* mem_rsi_node = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM | rsi << 8);          \
+    cmd_t* adr_stk_node = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, 0);                                       \
+                                                                                                                \
+    cmd_t* mem_r14_node = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_R14_IMM, MOV_R14_IMM);                     \
+    cmd_t* adr_buf_node = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, 0);                                       \
+} // temporary nullptr, will be filled in executor
 
 #endif //guard DSL_FOR_PARSER_H_INCLUDED
