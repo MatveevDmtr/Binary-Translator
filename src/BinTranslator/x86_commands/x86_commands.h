@@ -115,16 +115,7 @@ enum x86_Commands_Size
     SIZE_AND_RSP_FF = 4,
     SIZE_MOV_XMM_RSP = 6,
     SIZE_IMM = 8,
-};
-
-enum COND_JMPS
-{
-    JE_MASK = 0x84,
-    JNE_MASK = 0x85,
-    JG_MASK = 0x8f,
-    JGE_MASK = 0x8d,
-    JL_MASK = 0x8c,
-    JLE_MASK = 0x8e,
+    SIZE_ADDR = 4,
 };
 
 enum X86_CMD_NAMES
@@ -140,6 +131,7 @@ enum X86_CMD_NAMES
     CMD_MUL  = 'lum',
     CMD_DIV  = 'vid',
     CMD_DEG  = 'GED', //oh fuck
+    CMD_JMP  = 'pmj',
     CMD_JB   = 'bj',
     CMD_JA   = 'aj',
     CMD_JBE  = 'ebj',
@@ -151,4 +143,14 @@ enum X86_CMD_NAMES
     CMD_CVT  = 'tvc',
     CMD_DIVXMM = 'xvid',
     CMD_MULXMM = 'xlum',
+    CMD_CMP  = 'pmc',
+};
+
+enum COND_JMPS : u_int64_t {
+    JE_MASK = 0x84,
+    JNE_MASK = 0x85,
+    JG_MASK = 0x8f,
+    JGE_MASK = 0x8d,
+    JL_MASK = 0x8c,
+    JLE_MASK = 0x8e,
 };

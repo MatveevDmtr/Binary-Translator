@@ -7,50 +7,66 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 --------------------Assembler--------------------
 START IN DEFAULT MODE
 try to read file
-File size = 59
-Size of file is: 60 bytes.
+File size = 110
+Size of file is: 111 bytes.
 Type_calloc: char
 Sizeof type: 8
-Calloc returned: 0x555e12f35a90
+Calloc returned: 0x5585045dba90
 
-buffer size: 60
-fread number of symbols: 59
-Num lines: 9
+buffer size: 111
+fread number of symbols: 110
+Num lines: 14
 Type_calloc: type_prop_line
 Sizeof type: 8
-Calloc returned: 0x555e12f34a80
+Calloc returned: 0x5585045daa80
 
 Type_calloc: int
 Sizeof type: 8
-Calloc returned: 0x555e12f34b20
+Calloc returned: 0x5585045dab70
 
+Command found: name
+case name
 Command found: PUSH
 cmd_code: 1
-ptr_arg: 0x555e12f35a95, first sym to scan: r
+ptr_arg: 0x5585045dbaa2, first sym to scan: r
 case rcx
 reg_num: 0
 
 Command found: PUSH
 cmd_code: 1
-ptr_arg: 0x555e12f35a9e, first sym to scan: 2
+ptr_arg: 0x5585045dbaab, first sym to scan: 2
 case d
-Command found: COPY
-Command found: SQRT
-Command found: POP
-cmd_code: 2
-ptr_arg: 0x555e12f35aaf, first sym to scan: r
+Command found: PUSH
+cmd_code: 1
+ptr_arg: 0x5585045dbab3, first sym to scan: 1
+case d
+Command found: JB
+case jump
+Command found: push
+cmd_code: 1
+ptr_arg: 0x5585045dbac4, first sym to scan: 1
+case d
+Command found: push
+cmd_code: 1
+ptr_arg: 0x5585045dbacc, first sym to scan: 1
+case d
+Command found: add
+Command found: lbl
+Command found: PUSH
+cmd_code: 1
+ptr_arg: 0x5585045dbae2, first sym to scan: r
 case rcx
-reg_num: 0
+reg_num: 1
 
 Command found: POP
 cmd_code: 2
-ptr_arg: 0x555e12f35ab7, first sym to scan: r
+ptr_arg: 0x5585045dbaea, first sym to scan: r
 case rcx
-reg_num: 0
+reg_num: 1
 
 Command found: POP
 cmd_code: 2
-ptr_arg: 0x555e12f35abf, first sym to scan: r
+ptr_arg: 0x5585045dbaf2, first sym to scan: r
 case rcx
 reg_num: 0
 
@@ -64,46 +80,69 @@ ASM[00]: 65
 ASM[01]: 0
 ASM[02]: 33
 ASM[03]: 25
-ASM[04]: 21
-ASM[05]: 22
-ASM[06]: 66
+ASM[04]: 33
+ASM[05]: 15
+ASM[06]: 10
 ASM[07]: 0
-ASM[08]: 66
-ASM[09]: 0
-ASM[10]: 66
-ASM[11]: 0
-ASM[12]: 0
-ASM[13]: 0
+ASM[08]: 33
+ASM[09]: 11
+ASM[10]: 33
+ASM[11]: 12
+ASM[12]: 3
+ASM[13]: 65
+ASM[14]: 1
+ASM[15]: 66
+ASM[16]: 1
+ASM[17]: 66
+ASM[18]: 0
+ASM[19]: 0
+ASM[20]: 0
 
 =======  END ASM CODE =======
 
+Command found: name
+case name
 Command found: PUSH
 cmd_code: 1
-ptr_arg: 0x555e12f35a95, first sym to scan: r
+ptr_arg: 0x5585045dbaa2, first sym to scan: r
 case rcx
 reg_num: 0
 
 Command found: PUSH
 cmd_code: 1
-ptr_arg: 0x555e12f35a9e, first sym to scan: 2
+ptr_arg: 0x5585045dbaab, first sym to scan: 2
 case d
-Command found: COPY
-Command found: SQRT
-Command found: POP
-cmd_code: 2
-ptr_arg: 0x555e12f35aaf, first sym to scan: r
+Command found: PUSH
+cmd_code: 1
+ptr_arg: 0x5585045dbab3, first sym to scan: 1
+case d
+Command found: JB
+case jump
+Command found: push
+cmd_code: 1
+ptr_arg: 0x5585045dbac4, first sym to scan: 1
+case d
+Command found: push
+cmd_code: 1
+ptr_arg: 0x5585045dbacc, first sym to scan: 1
+case d
+Command found: add
+Command found: lbl
+Command found: PUSH
+cmd_code: 1
+ptr_arg: 0x5585045dbae2, first sym to scan: r
 case rcx
-reg_num: 0
+reg_num: 1
 
 Command found: POP
 cmd_code: 2
-ptr_arg: 0x555e12f35ab7, first sym to scan: r
+ptr_arg: 0x5585045dbaea, first sym to scan: r
 case rcx
-reg_num: 0
+reg_num: 1
 
 Command found: POP
 cmd_code: 2
-ptr_arg: 0x555e12f35abf, first sym to scan: r
+ptr_arg: 0x5585045dbaf2, first sym to scan: r
 case rcx
 reg_num: 0
 
@@ -117,30 +156,37 @@ ASM[00]: 65
 ASM[01]: 0
 ASM[02]: 33
 ASM[03]: 25
-ASM[04]: 21
-ASM[05]: 22
-ASM[06]: 66
-ASM[07]: 0
-ASM[08]: 66
-ASM[09]: 0
-ASM[10]: 66
-ASM[11]: 0
-ASM[12]: 0
-ASM[13]: 0
+ASM[04]: 33
+ASM[05]: 15
+ASM[06]: 10
+ASM[07]: 14
+ASM[08]: 33
+ASM[09]: 11
+ASM[10]: 33
+ASM[11]: 12
+ASM[12]: 3
+ASM[13]: 65
+ASM[14]: 1
+ASM[15]: 66
+ASM[16]: 1
+ASM[17]: 66
+ASM[18]: 0
+ASM[19]: 0
+ASM[20]: 0
 
 =======  END ASM CODE =======
 
 length signature: 3
-written size: 14
+written size: 21
 File is written successfully
 
 ----------CPU----------
 stk1 created
 Lines read: 1
 sign read: MDA, sign cpu: MDA
-Size already read: 14
+Size already read: 21
 Code was read
-ip: 0, Size: 14
+ip: 0, Size: 21
 cmd_code wo mask: 65
 start GetArg
 code of push: 65
@@ -151,30 +197,37 @@ Arg at start: 0
 *********** Start [FULL MASTER] Dump **********
 
 int Execute(CPU*) at src/Processor/cpu/cpu.cpp (line 84):
-CPU struct at [0x0x7fff681d0170]
-Signature:             0x555e1109737b
-Code:                  0x555e12f34e00
-Size of code:          14
-Registers:             0x555e12f34e40
-RAM:                   0x555e12f36af0
-Stack:                 0x7fff681d01b0
-Stack of Calls:        0x7fff681d0220
+CPU struct at [0x0x7fff12516850]
+Signature:             0x55850406037b
+Code:                  0x5585045dae80
+Size of code:          21
+Registers:             0x5585045daee0
+RAM:                   0x5585045dcb20
+Stack:                 0x7fff12516890
+Stack of Calls:        0x7fff12516900
 Instruction Pointer:   2
 
 	 code[00] =          65 = 41
 	 code[01] =           0 = 0
 	 code[02] =          33 = 21
 	 code[03] =          25 = 19
-	 code[04] =          21 = 15
-	 code[05] =          22 = 16
-	 code[06] =          66 = 42
-	 code[07] =           0 = 0
-	 code[08] =          66 = 42
-	 code[09] =           0 = 0
-	 code[10] =          66 = 42
-	 code[11] =           0 = 0
-	 code[12] =           0 = 0
-	 code[13] =           0 = 0
+	 code[04] =          33 = 21
+	 code[05] =          15 = f
+	 code[06] =          10 = a
+	 code[07] =          14 = e
+	 code[08] =          33 = 21
+	 code[09] =          11 = b
+	 code[10] =          33 = 21
+	 code[11] =          12 = c
+	 code[12] =           3 = 3
+	 code[13] =          65 = 41
+	 code[14] =           1 = 1
+	 code[15] =          66 = 42
+	 code[16] =           1 = 1
+	 code[17] =          66 = 42
+	 code[18] =           0 = 0
+	 code[19] =           0 = 0
+	 code[20] =           0 = 0
 
 
 reg[0] = 0
@@ -212,21 +265,21 @@ reg[29] = 0
 ++++++++++ Start Stack Dump ++++++++++
 
 int FuckingCPUDump(CPU*, const char*, const char*, int) at src/Processor/cpu/cpu.cpp (line 164):
-Stack [0x0x555e12f34d88] 
+Stack [0x0x5585045dae08] 
 In int FuckingDump(stack_t*, const char*, const char*, int) (line 328):
 ------
 | OK |
 ------
 Originally 'stk1' from int Run() at src/Processor/cpu/cpu.cpp (line 26): 
 
-Pointer:              0x555e12f34d88
+Pointer:              0x5585045dae08
 Size:                 1
 Capacity:             10
 DeadInside:           0
-PtrStackLeftCannary:  0x555e12f34d80
-PtrStackRightCannary: 0x555e12f34db0
+PtrStackLeftCannary:  0x5585045dae00
+PtrStackRightCannary: 0x5585045dae30
 StackHashSum:         894433881
-StructHashSum:        1630161047
+StructHashSum:        -1692247976
 
 StackLeftCannary:      dedfed15
 StackRightCannary:     ca115fa1
@@ -260,30 +313,37 @@ arg of GetArg wo RAM: 25
 *********** Start [FULL MASTER] Dump **********
 
 int Execute(CPU*) at src/Processor/cpu/cpu.cpp (line 84):
-CPU struct at [0x0x7fff681d0170]
-Signature:             0x555e1109737b
-Code:                  0x555e12f34e00
-Size of code:          14
-Registers:             0x555e12f34e40
-RAM:                   0x555e12f36af0
-Stack:                 0x7fff681d01b0
-Stack of Calls:        0x7fff681d0220
+CPU struct at [0x0x7fff12516850]
+Signature:             0x55850406037b
+Code:                  0x5585045dae80
+Size of code:          21
+Registers:             0x5585045daee0
+RAM:                   0x5585045dcb20
+Stack:                 0x7fff12516890
+Stack of Calls:        0x7fff12516900
 Instruction Pointer:   4
 
 	 code[00] =          65 = 41
 	 code[01] =           0 = 0
 	 code[02] =          33 = 21
 	 code[03] =          25 = 19
-	 code[04] =          21 = 15
-	 code[05] =          22 = 16
-	 code[06] =          66 = 42
-	 code[07] =           0 = 0
-	 code[08] =          66 = 42
-	 code[09] =           0 = 0
-	 code[10] =          66 = 42
-	 code[11] =           0 = 0
-	 code[12] =           0 = 0
-	 code[13] =           0 = 0
+	 code[04] =          33 = 21
+	 code[05] =          15 = f
+	 code[06] =          10 = a
+	 code[07] =          14 = e
+	 code[08] =          33 = 21
+	 code[09] =          11 = b
+	 code[10] =          33 = 21
+	 code[11] =          12 = c
+	 code[12] =           3 = 3
+	 code[13] =          65 = 41
+	 code[14] =           1 = 1
+	 code[15] =          66 = 42
+	 code[16] =           1 = 1
+	 code[17] =          66 = 42
+	 code[18] =           0 = 0
+	 code[19] =           0 = 0
+	 code[20] =           0 = 0
 
 
 reg[0] = 0
@@ -321,21 +381,21 @@ reg[29] = 0
 ++++++++++ Start Stack Dump ++++++++++
 
 int FuckingCPUDump(CPU*, const char*, const char*, int) at src/Processor/cpu/cpu.cpp (line 164):
-Stack [0x0x555e12f34d88] 
+Stack [0x0x5585045dae08] 
 In int FuckingDump(stack_t*, const char*, const char*, int) (line 328):
 ------
 | OK |
 ------
 Originally 'stk1' from int Run() at src/Processor/cpu/cpu.cpp (line 26): 
 
-Pointer:              0x555e12f34d88
+Pointer:              0x5585045dae08
 Size:                 2
 Capacity:             10
 DeadInside:           0
-PtrStackLeftCannary:  0x555e12f34d80
-PtrStackRightCannary: 0x555e12f34db0
+PtrStackLeftCannary:  0x5585045dae00
+PtrStackRightCannary: 0x5585045dae30
 StackHashSum:         -1184383790
-StructHashSum:        304832089
+StructHashSum:        1277390362
 
 StackLeftCannary:      dedfed15
 StackRightCannary:     ca115fa1
@@ -358,142 +418,48 @@ StackRightCannary:     ca115fa1
 
 ---------- Finish [FULL MASTER] Dump ----------
 
-cmd_code wo mask: 21
-value in copy: 25
+cmd_code wo mask: 33
+start GetArg
+code of push: 33
+GetArg wo RAM
+Arg at start: 0
+arg of GetArg wo RAM: 15
 
 
 *********** Start [FULL MASTER] Dump **********
 
 int Execute(CPU*) at src/Processor/cpu/cpu.cpp (line 84):
-CPU struct at [0x0x7fff681d0170]
-Signature:             0x555e1109737b
-Code:                  0x555e12f34e00
-Size of code:          14
-Registers:             0x555e12f34e40
-RAM:                   0x555e12f36af0
-Stack:                 0x7fff681d01b0
-Stack of Calls:        0x7fff681d0220
-Instruction Pointer:   5
-
-	 code[00] =          65 = 41
-	 code[01] =           0 = 0
-	 code[02] =          33 = 21
-	 code[03] =          25 = 19
-	 code[04] =          21 = 15
-	 code[05] =          22 = 16
-	 code[06] =          66 = 42
-	 code[07] =           0 = 0
-	 code[08] =          66 = 42
-	 code[09] =           0 = 0
-	 code[10] =          66 = 42
-	 code[11] =           0 = 0
-	 code[12] =           0 = 0
-	 code[13] =           0 = 0
-
-
-reg[0] = 0
-reg[1] = 0
-reg[2] = 0
-reg[3] = 0
-reg[4] = 0
-reg[5] = 0
-reg[6] = 0
-reg[7] = 0
-reg[8] = 0
-reg[9] = 0
-reg[10] = 0
-reg[11] = 0
-reg[12] = 0
-reg[13] = 0
-reg[14] = 0
-reg[15] = 0
-reg[16] = 0
-reg[17] = 0
-reg[18] = 0
-reg[19] = 0
-reg[20] = 0
-reg[21] = 0
-reg[22] = 0
-reg[23] = 0
-reg[24] = 0
-reg[25] = 0
-reg[26] = 0
-reg[27] = 0
-reg[28] = 0
-reg[29] = 0
-
-
-++++++++++ Start Stack Dump ++++++++++
-
-int FuckingCPUDump(CPU*, const char*, const char*, int) at src/Processor/cpu/cpu.cpp (line 164):
-Stack [0x0x555e12f34d88] 
-In int FuckingDump(stack_t*, const char*, const char*, int) (line 328):
-------
-| OK |
-------
-Originally 'stk1' from int Run() at src/Processor/cpu/cpu.cpp (line 26): 
-
-Pointer:              0x555e12f34d88
-Size:                 3
-Capacity:             10
-DeadInside:           0
-PtrStackLeftCannary:  0x555e12f34d80
-PtrStackRightCannary: 0x555e12f34db0
-StackHashSum:         -940102965
-StructHashSum:        710458775
-
-StackLeftCannary:      dedfed15
-StackRightCannary:     ca115fa1
-{
-	 data[0] =           0 = (nil)
-	 data[1] =          25 = 0x19
-	 data[2] =          25 = 0x19
-	 data[3] =           0 = (nil)
-	 data[4] =           0 = (nil)
-	 data[5] =           0 = (nil)
-	 data[6] =           0 = (nil)
-	 data[7] =           0 = (nil)
-	 data[8] =           0 = (nil)
-	 data[9] =           0 = (nil)
-}
-
-
----------- Finish Dump ----------
-
-
----------- Finish [FULL MASTER] Dump ----------
-
-cmd_code wo mask: 22
-sqrt from val: 5
-
-
-*********** Start [FULL MASTER] Dump **********
-
-int Execute(CPU*) at src/Processor/cpu/cpu.cpp (line 84):
-CPU struct at [0x0x7fff681d0170]
-Signature:             0x555e1109737b
-Code:                  0x555e12f34e00
-Size of code:          14
-Registers:             0x555e12f34e40
-RAM:                   0x555e12f36af0
-Stack:                 0x7fff681d01b0
-Stack of Calls:        0x7fff681d0220
+CPU struct at [0x0x7fff12516850]
+Signature:             0x55850406037b
+Code:                  0x5585045dae80
+Size of code:          21
+Registers:             0x5585045daee0
+RAM:                   0x5585045dcb20
+Stack:                 0x7fff12516890
+Stack of Calls:        0x7fff12516900
 Instruction Pointer:   6
 
 	 code[00] =          65 = 41
 	 code[01] =           0 = 0
 	 code[02] =          33 = 21
 	 code[03] =          25 = 19
-	 code[04] =          21 = 15
-	 code[05] =          22 = 16
-	 code[06] =          66 = 42
-	 code[07] =           0 = 0
-	 code[08] =          66 = 42
-	 code[09] =           0 = 0
-	 code[10] =          66 = 42
-	 code[11] =           0 = 0
-	 code[12] =           0 = 0
-	 code[13] =           0 = 0
+	 code[04] =          33 = 21
+	 code[05] =          15 = f
+	 code[06] =          10 = a
+	 code[07] =          14 = e
+	 code[08] =          33 = 21
+	 code[09] =          11 = b
+	 code[10] =          33 = 21
+	 code[11] =          12 = c
+	 code[12] =           3 = 3
+	 code[13] =          65 = 41
+	 code[14] =           1 = 1
+	 code[15] =          66 = 42
+	 code[16] =           1 = 1
+	 code[17] =          66 = 42
+	 code[18] =           0 = 0
+	 code[19] =           0 = 0
+	 code[20] =           0 = 0
 
 
 reg[0] = 0
@@ -531,28 +497,28 @@ reg[29] = 0
 ++++++++++ Start Stack Dump ++++++++++
 
 int FuckingCPUDump(CPU*, const char*, const char*, int) at src/Processor/cpu/cpu.cpp (line 164):
-Stack [0x0x555e12f34d88] 
+Stack [0x0x5585045dae08] 
 In int FuckingDump(stack_t*, const char*, const char*, int) (line 328):
 ------
 | OK |
 ------
 Originally 'stk1' from int Run() at src/Processor/cpu/cpu.cpp (line 26): 
 
-Pointer:              0x555e12f34d88
+Pointer:              0x5585045dae08
 Size:                 3
 Capacity:             10
 DeadInside:           0
-PtrStackLeftCannary:  0x555e12f34d80
-PtrStackRightCannary: 0x555e12f34db0
-StackHashSum:         -1135527625
-StructHashSum:        1553566543
+PtrStackLeftCannary:  0x5585045dae00
+PtrStackRightCannary: 0x5585045dae30
+StackHashSum:         -1037815295
+StructHashSum:        1468288374
 
 StackLeftCannary:      dedfed15
 StackRightCannary:     ca115fa1
 {
 	 data[0] =           0 = (nil)
 	 data[1] =          25 = 0x19
-	 data[2] =           5 = 0x5
+	 data[2] =          15 = 0xf
 	 data[3] =           0 = (nil)
 	 data[4] =           0 = (nil)
 	 data[5] =           0 = (nil)
@@ -568,9 +534,120 @@ StackRightCannary:     ca115fa1
 
 ---------- Finish [FULL MASTER] Dump ----------
 
-cmd_code wo mask: 66
+cmd_code wo mask: 10
+
+
+*********** Start [FULL MASTER] Dump **********
+
+int Execute(CPU*) at src/Processor/cpu/cpu.cpp (line 84):
+CPU struct at [0x0x7fff12516850]
+Signature:             0x55850406037b
+Code:                  0x5585045dae80
+Size of code:          21
+Registers:             0x5585045daee0
+RAM:                   0x5585045dcb20
+Stack:                 0x7fff12516890
+Stack of Calls:        0x7fff12516900
+Instruction Pointer:   13
+
+	 code[00] =          65 = 41
+	 code[01] =           0 = 0
+	 code[02] =          33 = 21
+	 code[03] =          25 = 19
+	 code[04] =          33 = 21
+	 code[05] =          15 = f
+	 code[06] =          10 = a
+	 code[07] =          14 = e
+	 code[08] =          33 = 21
+	 code[09] =          11 = b
+	 code[10] =          33 = 21
+	 code[11] =          12 = c
+	 code[12] =           3 = 3
+	 code[13] =          65 = 41
+	 code[14] =           1 = 1
+	 code[15] =          66 = 42
+	 code[16] =           1 = 1
+	 code[17] =          66 = 42
+	 code[18] =           0 = 0
+	 code[19] =           0 = 0
+	 code[20] =           0 = 0
+
+
+reg[0] = 0
+reg[1] = 0
+reg[2] = 0
+reg[3] = 0
+reg[4] = 0
+reg[5] = 0
+reg[6] = 0
+reg[7] = 0
+reg[8] = 0
+reg[9] = 0
+reg[10] = 0
+reg[11] = 0
+reg[12] = 0
+reg[13] = 0
+reg[14] = 0
+reg[15] = 0
+reg[16] = 0
+reg[17] = 0
+reg[18] = 0
+reg[19] = 0
+reg[20] = 0
+reg[21] = 0
+reg[22] = 0
+reg[23] = 0
+reg[24] = 0
+reg[25] = 0
+reg[26] = 0
+reg[27] = 0
+reg[28] = 0
+reg[29] = 0
+
+
+++++++++++ Start Stack Dump ++++++++++
+
+int FuckingCPUDump(CPU*, const char*, const char*, int) at src/Processor/cpu/cpu.cpp (line 164):
+Stack [0x0x5585045dae08] 
+In int FuckingDump(stack_t*, const char*, const char*, int) (line 328):
+------
+| OK |
+------
+Originally 'stk1' from int Run() at src/Processor/cpu/cpu.cpp (line 26): 
+
+Pointer:              0x5585045dae08
+Size:                 1
+Capacity:             10
+DeadInside:           0
+PtrStackLeftCannary:  0x5585045dae00
+PtrStackRightCannary: 0x5585045dae30
+StackHashSum:         658945057
+StructHashSum:        -821969206
+
+StackLeftCannary:      dedfed15
+StackRightCannary:     ca115fa1
+{
+	 data[0] =           0 = (nil)
+	 data[1] = -1163005939 = 0xbaadf00d (POISONED)
+	 data[2] = -1163005939 = 0xbaadf00d (POISONED)
+	 data[3] =           0 = (nil)
+	 data[4] =           0 = (nil)
+	 data[5] =           0 = (nil)
+	 data[6] =           0 = (nil)
+	 data[7] =           0 = (nil)
+	 data[8] =           0 = (nil)
+	 data[9] =           0 = (nil)
+}
+
+
+---------- Finish Dump ----------
+
+
+---------- Finish [FULL MASTER] Dump ----------
+
+cmd_code wo mask: 65
 start GetArg
-code of push: 66
+code of push: 65
 GetArg wo RAM
 Arg at start: 0
 
@@ -578,33 +655,40 @@ Arg at start: 0
 *********** Start [FULL MASTER] Dump **********
 
 int Execute(CPU*) at src/Processor/cpu/cpu.cpp (line 84):
-CPU struct at [0x0x7fff681d0170]
-Signature:             0x555e1109737b
-Code:                  0x555e12f34e00
-Size of code:          14
-Registers:             0x555e12f34e40
-RAM:                   0x555e12f36af0
-Stack:                 0x7fff681d01b0
-Stack of Calls:        0x7fff681d0220
-Instruction Pointer:   8
+CPU struct at [0x0x7fff12516850]
+Signature:             0x55850406037b
+Code:                  0x5585045dae80
+Size of code:          21
+Registers:             0x5585045daee0
+RAM:                   0x5585045dcb20
+Stack:                 0x7fff12516890
+Stack of Calls:        0x7fff12516900
+Instruction Pointer:   15
 
 	 code[00] =          65 = 41
 	 code[01] =           0 = 0
 	 code[02] =          33 = 21
 	 code[03] =          25 = 19
-	 code[04] =          21 = 15
-	 code[05] =          22 = 16
-	 code[06] =          66 = 42
-	 code[07] =           0 = 0
-	 code[08] =          66 = 42
-	 code[09] =           0 = 0
-	 code[10] =          66 = 42
-	 code[11] =           0 = 0
-	 code[12] =           0 = 0
-	 code[13] =           0 = 0
+	 code[04] =          33 = 21
+	 code[05] =          15 = f
+	 code[06] =          10 = a
+	 code[07] =          14 = e
+	 code[08] =          33 = 21
+	 code[09] =          11 = b
+	 code[10] =          33 = 21
+	 code[11] =          12 = c
+	 code[12] =           3 = 3
+	 code[13] =          65 = 41
+	 code[14] =           1 = 1
+	 code[15] =          66 = 42
+	 code[16] =           1 = 1
+	 code[17] =          66 = 42
+	 code[18] =           0 = 0
+	 code[19] =           0 = 0
+	 code[20] =           0 = 0
 
 
-reg[0] = 5
+reg[0] = 0
 reg[1] = 0
 reg[2] = 0
 reg[3] = 0
@@ -639,27 +723,27 @@ reg[29] = 0
 ++++++++++ Start Stack Dump ++++++++++
 
 int FuckingCPUDump(CPU*, const char*, const char*, int) at src/Processor/cpu/cpu.cpp (line 164):
-Stack [0x0x555e12f34d88] 
+Stack [0x0x5585045dae08] 
 In int FuckingDump(stack_t*, const char*, const char*, int) (line 328):
 ------
 | OK |
 ------
 Originally 'stk1' from int Run() at src/Processor/cpu/cpu.cpp (line 26): 
 
-Pointer:              0x555e12f34d88
+Pointer:              0x5585045dae08
 Size:                 2
 Capacity:             10
 DeadInside:           0
-PtrStackLeftCannary:  0x555e12f34d80
-PtrStackRightCannary: 0x555e12f34db0
-StackHashSum:         1812164790
-StructHashSum:        1737412240
+PtrStackLeftCannary:  0x5585045dae00
+PtrStackRightCannary: 0x5585045dae30
+StackHashSum:         -403984835
+StructHashSum:        -1493390293
 
 StackLeftCannary:      dedfed15
 StackRightCannary:     ca115fa1
 {
 	 data[0] =           0 = (nil)
-	 data[1] =          25 = 0x19
+	 data[1] =           0 = (nil)
 	 data[2] = -1163005939 = 0xbaadf00d (POISONED)
 	 data[3] =           0 = (nil)
 	 data[4] =           0 = (nil)
@@ -686,33 +770,40 @@ Arg at start: 0
 *********** Start [FULL MASTER] Dump **********
 
 int Execute(CPU*) at src/Processor/cpu/cpu.cpp (line 84):
-CPU struct at [0x0x7fff681d0170]
-Signature:             0x555e1109737b
-Code:                  0x555e12f34e00
-Size of code:          14
-Registers:             0x555e12f34e40
-RAM:                   0x555e12f36af0
-Stack:                 0x7fff681d01b0
-Stack of Calls:        0x7fff681d0220
-Instruction Pointer:   10
+CPU struct at [0x0x7fff12516850]
+Signature:             0x55850406037b
+Code:                  0x5585045dae80
+Size of code:          21
+Registers:             0x5585045daee0
+RAM:                   0x5585045dcb20
+Stack:                 0x7fff12516890
+Stack of Calls:        0x7fff12516900
+Instruction Pointer:   17
 
 	 code[00] =          65 = 41
 	 code[01] =           0 = 0
 	 code[02] =          33 = 21
 	 code[03] =          25 = 19
-	 code[04] =          21 = 15
-	 code[05] =          22 = 16
-	 code[06] =          66 = 42
-	 code[07] =           0 = 0
-	 code[08] =          66 = 42
-	 code[09] =           0 = 0
-	 code[10] =          66 = 42
-	 code[11] =           0 = 0
-	 code[12] =           0 = 0
-	 code[13] =           0 = 0
+	 code[04] =          33 = 21
+	 code[05] =          15 = f
+	 code[06] =          10 = a
+	 code[07] =          14 = e
+	 code[08] =          33 = 21
+	 code[09] =          11 = b
+	 code[10] =          33 = 21
+	 code[11] =          12 = c
+	 code[12] =           3 = 3
+	 code[13] =          65 = 41
+	 code[14] =           1 = 1
+	 code[15] =          66 = 42
+	 code[16] =           1 = 1
+	 code[17] =          66 = 42
+	 code[18] =           0 = 0
+	 code[19] =           0 = 0
+	 code[20] =           0 = 0
 
 
-reg[0] = 25
+reg[0] = 0
 reg[1] = 0
 reg[2] = 0
 reg[3] = 0
@@ -747,21 +838,21 @@ reg[29] = 0
 ++++++++++ Start Stack Dump ++++++++++
 
 int FuckingCPUDump(CPU*, const char*, const char*, int) at src/Processor/cpu/cpu.cpp (line 164):
-Stack [0x0x555e12f34d88] 
+Stack [0x0x5585045dae08] 
 In int FuckingDump(stack_t*, const char*, const char*, int) (line 328):
 ------
 | OK |
 ------
 Originally 'stk1' from int Run() at src/Processor/cpu/cpu.cpp (line 26): 
 
-Pointer:              0x555e12f34d88
+Pointer:              0x5585045dae08
 Size:                 1
 Capacity:             10
 DeadInside:           0
-PtrStackLeftCannary:  0x555e12f34d80
-PtrStackRightCannary: 0x555e12f34db0
+PtrStackLeftCannary:  0x5585045dae00
+PtrStackRightCannary: 0x5585045dae30
 StackHashSum:         658945057
-StructHashSum:        -1794527479
+StructHashSum:        -821969206
 
 StackLeftCannary:      dedfed15
 StackRightCannary:     ca115fa1
@@ -794,30 +885,37 @@ Arg at start: 0
 *********** Start [FULL MASTER] Dump **********
 
 int Execute(CPU*) at src/Processor/cpu/cpu.cpp (line 84):
-CPU struct at [0x0x7fff681d0170]
-Signature:             0x555e1109737b
-Code:                  0x555e12f34e00
-Size of code:          14
-Registers:             0x555e12f34e40
-RAM:                   0x555e12f36af0
-Stack:                 0x7fff681d01b0
-Stack of Calls:        0x7fff681d0220
-Instruction Pointer:   12
+CPU struct at [0x0x7fff12516850]
+Signature:             0x55850406037b
+Code:                  0x5585045dae80
+Size of code:          21
+Registers:             0x5585045daee0
+RAM:                   0x5585045dcb20
+Stack:                 0x7fff12516890
+Stack of Calls:        0x7fff12516900
+Instruction Pointer:   19
 
 	 code[00] =          65 = 41
 	 code[01] =           0 = 0
 	 code[02] =          33 = 21
 	 code[03] =          25 = 19
-	 code[04] =          21 = 15
-	 code[05] =          22 = 16
-	 code[06] =          66 = 42
-	 code[07] =           0 = 0
-	 code[08] =          66 = 42
-	 code[09] =           0 = 0
-	 code[10] =          66 = 42
-	 code[11] =           0 = 0
-	 code[12] =           0 = 0
-	 code[13] =           0 = 0
+	 code[04] =          33 = 21
+	 code[05] =          15 = f
+	 code[06] =          10 = a
+	 code[07] =          14 = e
+	 code[08] =          33 = 21
+	 code[09] =          11 = b
+	 code[10] =          33 = 21
+	 code[11] =          12 = c
+	 code[12] =           3 = 3
+	 code[13] =          65 = 41
+	 code[14] =           1 = 1
+	 code[15] =          66 = 42
+	 code[16] =           1 = 1
+	 code[17] =          66 = 42
+	 code[18] =           0 = 0
+	 code[19] =           0 = 0
+	 code[20] =           0 = 0
 
 
 reg[0] = 0
@@ -855,21 +953,21 @@ reg[29] = 0
 ++++++++++ Start Stack Dump ++++++++++
 
 int FuckingCPUDump(CPU*, const char*, const char*, int) at src/Processor/cpu/cpu.cpp (line 164):
-Stack [0x0x555e12f34d88] 
+Stack [0x0x5585045dae08] 
 In int FuckingDump(stack_t*, const char*, const char*, int) (line 328):
 ------
 | OK |
 ------
 Originally 'stk1' from int Run() at src/Processor/cpu/cpu.cpp (line 26): 
 
-Pointer:              0x555e12f34d88
+Pointer:              0x5585045dae08
 Size:                 0
 Capacity:             10
 DeadInside:           0
-PtrStackLeftCannary:  0x555e12f34d80
-PtrStackRightCannary: 0x555e12f34db0
+PtrStackLeftCannary:  0x5585045dae00
+PtrStackRightCannary: 0x5585045dae30
 StackHashSum:         112856069
-StructHashSum:        -1968349996
+StructHashSum:        -995791723
 
 StackLeftCannary:      dedfed15
 StackRightCannary:     ca115fa1
@@ -907,9 +1005,9 @@ Finish running
 disasm created
 Lines read: 1
 sign read: MDA, sign cpu: MDA
-Size already read: 14
+Size already read: 21
 Code was read
-ip: 0, Size: 14
+ip: 0, Size: 21
 disasm ip: 0
 cmd_code wo mask: 41
 start translating cmd
@@ -923,187 +1021,267 @@ start PushHandler
 code of push: 33
 finish PutStackArg
 disasm ip: 4
-cmd_code wo mask: 15
+cmd_code wo mask: 21
 start translating cmd
-disasm ip: 5
-cmd_code wo mask: 16
-start translating cmd
-start ArythmeticHandler
-disasm ip: 6
-cmd_code wo mask: 42
-start translating cmd
-start PopHandler
-code of pop: 66
+start PushHandler
+code of push: 33
 finish PutStackArg
-disasm ip: 8
-cmd_code wo mask: 42
+disasm ip: 6
+cmd_code wo mask: a
 start translating cmd
-start PopHandler
-code of pop: 66
+disasm ip: 8
+cmd_code wo mask: 21
+start translating cmd
+start PushHandler
+code of push: 33
 finish PutStackArg
 disasm ip: 10
+cmd_code wo mask: 21
+start translating cmd
+start PushHandler
+code of push: 33
+finish PutStackArg
+disasm ip: 12
+cmd_code wo mask: 3
+start translating cmd
+ADD found
+start ArythmeticHandler
+disasm ip: 13
+cmd_code wo mask: 41
+start translating cmd
+start PushHandler
+code of push: 65
+finish PutStackArg
+disasm ip: 15
 cmd_code wo mask: 42
 start translating cmd
 start PopHandler
 code of pop: 66
 finish PutStackArg
-disasm ip: 12
+disasm ip: 17
+cmd_code wo mask: 42
+start translating cmd
+start PopHandler
+code of pop: 66
+finish PutStackArg
+disasm ip: 19
 cmd_code wo mask: 0
 start translating cmd
-disasm ip: 13
+disasm ip: 20
 cmd_code wo mask: 0
 start translating cmd
 end of cycle
 
+Start Filling Jump Addresses
+Found jump!
+try to find ip 14
+Searched: 62
+Addr of jump: 28
+
 
 ----------CmdList Dump----------
-List size: 17
+List size: 27
 
 ~~~~~~~push~~~~~~~
-bytesize: 1
-bytecode: 50
+bytesize:    1
+bytecode:    50
 byteaddress: 0
+ip:          1
 
 ~~~~~~~mov~~~~~~~
-bytesize: 2
-bytecode: bf48
+bytesize:    2
+bytecode:    bf48
 byteaddress: 1
+ip:          3
 
 ~~~~~~~imm~~~~~~~
-bytesize: 8
-bytecode: 19
+bytesize:    8
+bytecode:    19
 byteaddress: 3
+ip:          4
 
 ~~~~~~~push~~~~~~~
-bytesize: 1
-bytecode: 57
+bytesize:    1
+bytecode:    57
 byteaddress: b
+ip:          4
 
-~~~~~~~pop~~~~~~~
-bytesize: 1
-bytecode: 58
+~~~~~~~mov~~~~~~~
+bytesize:    2
+bytecode:    bf48
 byteaddress: c
+ip:          5
 
-~~~~~~~push~~~~~~~
-bytesize: 1
-bytecode: 50
-byteaddress: d
-
-~~~~~~~push~~~~~~~
-bytesize: 1
-bytecode: 50
+~~~~~~~imm~~~~~~~
+bytesize:    8
+bytecode:    f
 byteaddress: e
-
-~~~~~~~pop~~~~~~~
-bytesize: 1
-bytecode: 58
-byteaddress: f
-
-~~~~~~~cvt~~~~~~~
-bytesize: 5
-bytecode: c02a0f48f2
-byteaddress: 10
-
-~~~~~~~SQRT~~~~~~~
-bytesize: 4
-bytecode: c0510f66
-byteaddress: 15
-
-~~~~~~~cvt~~~~~~~
-bytesize: 5
-bytecode: c02d0f48f2
-byteaddress: 19
+ip:          6
 
 ~~~~~~~push~~~~~~~
-bytesize: 1
-bytecode: 50
+bytesize:    1
+bytecode:    57
+byteaddress: 16
+ip:          6
+
+~~~~~~~pop~~~~~~~
+bytesize:    1
+bytecode:    58
+byteaddress: 17
+ip:          7
+
+~~~~~~~pop~~~~~~~
+bytesize:    1
+bytecode:    5b
+byteaddress: 18
+ip:          7
+
+~~~~~~~cmp~~~~~~~
+bytesize:    3
+bytecode:    d83948
+byteaddress: 19
+ip:          7
+
+~~~~~~~jb~~~~~~~
+bytesize:    2
+bytecode:    8c0f
+byteaddress: 1c
+ip:          7
+
+~~~~~~~imm~~~~~~~
+bytesize:    4
+bytecode:    1c
 byteaddress: 1e
+ip:          8
 
-~~~~~~~pop~~~~~~~
-bytesize: 1
-bytecode: 58
-byteaddress: 1f
-
-~~~~~~~pop~~~~~~~
-bytesize: 1
-bytecode: 58
-byteaddress: 20
-
-~~~~~~~pop~~~~~~~
-bytesize: 1
-bytecode: 58
-byteaddress: 21
-
-~~~~~~~ret~~~~~~~
-bytesize: 1
-bytecode: c3
+~~~~~~~mov~~~~~~~
+bytesize:    2
+bytecode:    bf48
 byteaddress: 22
+ip:          9
+
+~~~~~~~imm~~~~~~~
+bytesize:    8
+bytecode:    b
+byteaddress: 24
+ip:          a
+
+~~~~~~~push~~~~~~~
+bytesize:    1
+bytecode:    57
+byteaddress: 2c
+ip:          a
+
+~~~~~~~mov~~~~~~~
+bytesize:    2
+bytecode:    bf48
+byteaddress: 2d
+ip:          b
+
+~~~~~~~imm~~~~~~~
+bytesize:    8
+bytecode:    c
+byteaddress: 2f
+ip:          c
+
+~~~~~~~push~~~~~~~
+bytesize:    1
+bytecode:    57
+byteaddress: 37
+ip:          c
+
+~~~~~~~pop~~~~~~~
+bytesize:    1
+bytecode:    58
+byteaddress: 38
+ip:          c
+
+~~~~~~~pop~~~~~~~
+bytesize:    1
+bytecode:    5b
+byteaddress: 39
+ip:          c
+
+~~~~~~~add~~~~~~~
+bytesize:    3
+bytecode:    c30148
+byteaddress: 3a
+ip:          c
+
+~~~~~~~push~~~~~~~
+bytesize:    1
+bytecode:    50
+byteaddress: 3d
+ip:          c
+
+~~~~~~~push~~~~~~~
+bytesize:    1
+bytecode:    51
+byteaddress: 3e
+ip:          e
+
+~~~~~~~pop~~~~~~~
+bytesize:    1
+bytecode:    59
+byteaddress: 3f
+ip:          10
+
+~~~~~~~pop~~~~~~~
+bytesize:    1
+bytecode:    58
+byteaddress: 40
+ip:          12
 
 ~~~~~~~ret~~~~~~~
-bytesize: 1
-bytecode: c3
-byteaddress: 23
+bytesize:    1
+bytecode:    c3
+byteaddress: 41
+ip:          13
+
+~~~~~~~ret~~~~~~~
+bytesize:    1
+bytecode:    c3
+byteaddress: 42
+ip:          14
 
 ----------Finish CmdList Dump----------
 Finish disassembling
-try to write bytecode
-bytecode written successfully
 cursor: 1
-try to write bytecode
-bytecode written successfully
 cursor: 3
-try to write bytecode
-bytecode written successfully
 cursor: 11
-try to write bytecode
-bytecode written successfully
 cursor: 12
-try to write bytecode
-bytecode written successfully
-cursor: 13
-try to write bytecode
-bytecode written successfully
 cursor: 14
-try to write bytecode
-bytecode written successfully
-cursor: 15
-try to write bytecode
-bytecode written successfully
-cursor: 16
-try to write bytecode
-bytecode written successfully
-cursor: 21
-try to write bytecode
-bytecode written successfully
+cursor: 22
+cursor: 23
+cursor: 24
 cursor: 25
-try to write bytecode
-bytecode written successfully
+cursor: 28
 cursor: 30
-try to write bytecode
-bytecode written successfully
-cursor: 31
-try to write bytecode
-bytecode written successfully
-cursor: 32
-try to write bytecode
-bytecode written successfully
-cursor: 33
-try to write bytecode
-bytecode written successfully
 cursor: 34
-try to write bytecode
-bytecode written successfully
-cursor: 35
-try to write bytecode
-bytecode written successfully
 cursor: 36
+cursor: 44
+cursor: 45
+cursor: 47
+cursor: 55
+cursor: 56
+cursor: 57
+cursor: 58
+cursor: 61
+cursor: 62
+cursor: 63
+cursor: 64
+cursor: 65
+cursor: 66
+cursor: 67
 
 
 ------------------------CodeBufDump------------------------
 
-50 48 bf 19  0  0  0  0  0  0  0 57 58 50 50 58 
-f2 48  f 2a c0 66  f 51 c0 f2 48  f 2d c0 50 58 
-58 58 c3 c3 
+50 48 bf 19  0  0  0  0  0  0  0 57 48 bf  f  0 
+ 0  0  0  0  0  0 57 58 5b 48 39 d8  f 8c 1c  0 
+ 0  0 48 bf  b  0  0  0  0  0  0  0 57 48 bf  c 
+ 0  0  0  0  0  0  0 57 58 5b 48  1 c3 50 51 59 
+58 c3 c3 
 --------------------Finish CodeBufDump---------------------
 
 

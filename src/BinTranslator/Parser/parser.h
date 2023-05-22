@@ -21,7 +21,8 @@ typedef struct Command
     int             name;
     size_t          bytesize;
     size_t          byteadr;
-    uint64_t        bytecode; 
+    uint64_t        bytecode;
+    size_t          ip; 
     struct Command* next;
 } cmd_t;
 
@@ -58,7 +59,7 @@ void BufCtor(disasm_t* disasm);
 
 int getCodeForDisasm(disasm_t* disasm);
 
-cmd_t* NewNode(cmdlist_t* cmdlist, int name, size_t bytesize, uint64_t bytecode);
+cmd_t* NewNode(disasm_t* disasm, cmdlist_t* cmdlist, int name, size_t bytesize, uint64_t bytecode);
 
 int PushHandler(disasm_t* disasm, cmdlist_t* cmdlist);
 
@@ -67,6 +68,10 @@ int PopHandler(disasm_t* disasm, cmdlist_t* cmdlist);
 int ArythmeticHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op);
 
 int CopyHandler(disasm_t* disasm, cmdlist_t* cmdlist);
+
+cmd_t* SearchCmdByIp(cmdlist_t* cmdlist, size_t ip);
+
+int FillJumpAddresses(cmdlist_t* cmdlist);
 
 
 #endif //DISASSEMBLER_H_INCLUDED

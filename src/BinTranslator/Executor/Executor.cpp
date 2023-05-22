@@ -5,7 +5,7 @@
 #define PAGESIZE 4096
 
 
-const size_t DEFAULT_BUFSIZE = 50;
+const size_t DEFAULT_BUFSIZE = 65536;
 
 int Execute(cmdlist_t* cmdlist)
 {   
@@ -46,12 +46,11 @@ int FillCodeBuf(codebuf_t* codebuf, cmdlist_t* cmdlist)
     {
         if (codebuf->cursor >= codebuf->capacity - node->bytesize)
         {
-            int a = 0;
-            //CodeBufResize();
+            print_log(FRAMED, "StackOverFlow Error: the code size is too large");
         }
-        log("try to write bytecode\n");
+
         *((uint64_t*)(codebuf->buf + codebuf->cursor)) = node->bytecode;
-        log("bytecode written successfully\n");
+
 
         codebuf->cursor += node->bytesize;
 

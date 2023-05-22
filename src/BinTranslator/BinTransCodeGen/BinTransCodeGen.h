@@ -40,7 +40,7 @@
 }
 
 DEF_CMD(HLT, 0, 0, x86_RET, SIZE_x86_RET, 
-NewNode(cmdlist, CMD_RET, SIZE_x86_RET, x86_RET);
+NewNode(disasm, cmdlist, CMD_RET, SIZE_x86_RET, x86_RET);
 disasm->ip++;
 )
 
@@ -78,31 +78,31 @@ Skip();
 )
 
 DEF_CMD(JUMP, 9, 1, 0, 0,
-Skip();
+JumpHandler(disasm, cmdlist, CMD_JMP);
 )
 
 DEF_CMD(JB, 10, 1, 0, 0,
-Skip();
+JumpHandler(disasm, cmdlist, CMD_JB);
 )
 
 DEF_CMD(JBE, 11, 1, 0, 0,
-Skip();
+JumpHandler(disasm, cmdlist, CMD_JBE);
 )
 
 DEF_CMD(JA, 12, 1, 0, 0,
-Skip();
+JumpHandler(disasm, cmdlist, CMD_JA);
 )
 
 DEF_CMD(JAE, 13, 1, 0, 0,
-Skip();
+JumpHandler(disasm, cmdlist, CMD_JAE);
 )
 
 DEF_CMD(JE, 14, 1, 0, 0,
-Skip();
+JumpHandler(disasm, cmdlist, CMD_JE);
 )
 
 DEF_CMD(JNE, 15, 1, 0, 0,
-Skip();
+JumpHandler(disasm, cmdlist, CMD_JNE);
 )
 //directive
 // DEF_CMD(NAME, 16, 0, 0, 0,
@@ -122,7 +122,7 @@ Skip();
 )
 
 DEF_CMD(RET, 20, 0, x86_RET, SIZE_x86_RET, 
-NewNode(cmdlist, CMD_RET, SIZE_x86_RET, x86_RET);
+NewNode(disasm, cmdlist, CMD_RET, SIZE_x86_RET, x86_RET);
 disasm->ip++;
 )
 

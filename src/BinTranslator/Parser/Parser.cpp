@@ -93,7 +93,7 @@ cmdlist_t* CreateCmdList()
 // }
 
 
-cmd_t* NewNode(cmdlist_t* cmdlist, int name, size_t bytesize, uint64_t bytecode)
+cmd_t* NewNode(disasm_t* disasm, cmdlist_t* cmdlist, int name, size_t bytesize, uint64_t bytecode)
 {
     cmd_t* cmd = (cmd_t*) calloc (1, sizeof(cmd_t));
     if  (cmd == nullptr)
@@ -119,6 +119,8 @@ cmd_t* NewNode(cmdlist_t* cmdlist, int name, size_t bytesize, uint64_t bytecode)
 
     cmdlist->size++;
 
+    cmd->ip = disasm->ip;
+
     return cmd;
 }
 
@@ -133,9 +135,10 @@ int CmdListDump(cmdlist_t* cmdlist)
     for (size_t i = 0; i < cmdlist->size; i++)
     {
         log("~~~~~~~%.4s~~~~~~~\n", &(node->name));
-        log("bytesize: %zx\n", node->bytesize);
-        log("bytecode: %zx\n", node->bytecode);
+        log("bytesize:    %zx\n", node->bytesize);
+        log("bytecode:    %zx\n", node->bytecode);
         log("byteaddress: %zx\n", node->byteadr);
+        log("ip:          %zx\n", node->ip);
         log("\n");
         node = node->next;
     }
@@ -172,25 +175,25 @@ int PushHandler(disasm_t* disasm, cmdlist_t* cmdlist)
     {
         if (disasm->asm_code[cmd_ip] & ARG_IMMED)
         {
-            cmd_t* push_node = NewNode(cmdlist, CMD_PUSH, SIZE_PUSH_R15_OFFSET, PUSH_R15_OFFSET);
-            cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, disasm->asm_code[disasm->ip++]);
+            cmd_t* push_node = NewNode(disasm, cmdlist, CMD_PUSH, SIZE_PUSH_R15_OFFSET, PUSH_R15_OFFSET);
+            cmd_t* imm_node  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, disasm->asm_code[disasm->ip++]);
         }
         
     }
 
     else if (disasm->asm_code[cmd_ip] & ARG_REG)
     {
-        cmd_t* push_node = NewNode(cmdlist, CMD_PUSH, SIZE_PUSH_REG, PUSH_REG);
+        cmd_t* push_node = NewNode(disasm, cmdlist, CMD_PUSH, SIZE_PUSH_REG, PUSH_REG);
         int reg_num = (disasm->asm_code)[disasm->ip++];
         push_node->bytecode |= reg_num;
     }
 
     else if (disasm->asm_code[cmd_ip] & ARG_IMMED)
     {
-        cmd_t* mov_node = NewNode(cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM);
+        cmd_t* mov_node = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM);
         mov_node->bytecode |= (rdi<< 8);
-        cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, disasm->asm_code[disasm->ip++]);
-        cmd_t* push_node = NewNode(cmdlist, CMD_PUSH, SIZE_PUSH_REG, PUSH_REG);
+        cmd_t* imm_node  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, disasm->asm_code[disasm->ip++]);
+        cmd_t* push_node = NewNode(disasm, cmdlist, CMD_PUSH, SIZE_PUSH_REG, PUSH_REG);
         push_node->bytecode |= rdi;
     }
     else
@@ -214,14 +217,14 @@ int PopHandler(disasm_t* disasm, cmdlist_t* cmdlist)
     {
         if (disasm->asm_code[cmd_ip] & ARG_IMMED)
         {
-            cmd_t* pop_node = NewNode(cmdlist, CMD_POP, SIZE_POP_R15_OFFSET, POP_R15_OFFSET);
-            cmd_t* imm_node  = NewNode(cmdlist, CMD_IMM, SIZE_IMM, disasm->asm_code[disasm->ip++]);
+            cmd_t* pop_node = NewNode(disasm, cmdlist, CMD_POP, SIZE_POP_R15_OFFSET, POP_R15_OFFSET);
+            cmd_t* imm_node  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, disasm->asm_code[disasm->ip++]);
         }
         
     }
     else if (disasm->asm_code[cmd_ip] & ARG_REG)
     {
-        cmd_t* pop_node = NewNode(cmdlist, CMD_POP, SIZE_POP_REG, POP_REG);
+        cmd_t* pop_node = NewNode(disasm, cmdlist, CMD_POP, SIZE_POP_REG, POP_REG);
         int reg_num = (disasm->asm_code)[disasm->ip++];
         pop_node->bytecode |= reg_num;
     }
@@ -297,6 +300,64 @@ int CopyHandler(disasm_t* disasm, cmdlist_t* cmdlist)
     disasm->ip++;
 
     return 0;
+}
+
+int JumpHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op)
+{
+    size_t cmd_ip = disasm->ip++;
+    
+    switch (op)
+    {
+        case CMD_JMP:
+            NewNode(disasm, cmdlist, CMD_JMP, SIZE_x86_JMP, x86_JMP);
+            break;
+
+        case CMD_JA:
+            DO_CMP;
+            DO_COND_JUMP(CMD_JA, x86_COND_JMP | (JG_MASK << 8));
+            break;
+        
+        case CMD_JAE:
+            DO_CMP;
+            DO_COND_JUMP(CMD_JAE, x86_COND_JMP | (JGE_MASK << 8));
+            break;
+
+        case CMD_JB:
+            DO_CMP;
+            DO_COND_JUMP(CMD_JB, x86_COND_JMP | (JL_MASK << 8));
+            break;
+
+        case CMD_JBE:
+            DO_CMP;
+            DO_COND_JUMP(CMD_JBE, x86_COND_JMP | (JGE_MASK << 8));
+            break;
+
+        case CMD_JE:
+            DO_CMP;
+            DO_COND_JUMP(CMD_JE, x86_COND_JMP | (JE_MASK << 8));
+            break;
+
+        case CMD_JNE:
+            DO_CMP;
+            DO_COND_JUMP(CMD_JNE, x86_COND_JMP | (JNE_MASK << 8));
+            break;
+        
+        default:
+            print_log(FRAMED, "JumpError: invalid type of jump");
+    }
+}
+
+cmd_t* SearchCmdByIp(cmdlist_t* cmdlist, size_t ip)
+{
+    cmd_t* node = cmdlist->head;
+    for (size_t i = 0; i < cmdlist->size; i++)
+    {
+        if (node->ip == ip)     return node;
+
+        node = node->next;
+    }
+
+    print_log(FRAMED, "JumpError: jump to an invalid address");
 }
 
 int HandleRegsDisasm(disasm_t* disasm, size_t reg_num, cmd_t* node)
@@ -390,6 +451,36 @@ int ParseByteCode(disasm_t* disasm, cmdlist_t* cmdlist)
     log("end of cycle\n");
 
     #undef DEF_CMD
+
+    FillJumpAddresses(cmdlist);
+
+    return 0;
+}
+
+int FillJumpAddresses(cmdlist_t* cmdlist)
+{
+    log("\nStart Filling Jump Addresses\n");
+    cmd_t* node = cmdlist->head;
+
+    for(int i = 0; i < cmdlist->size; i++)
+    {
+        Assert(node == nullptr);
+
+        if (node->name == CMD_JMP || node->name == CMD_JA || node->name == CMD_JAE || node->name == CMD_JB || node->name == CMD_JBE || 
+            node->name == CMD_JE  || node->name == CMD_JNE)
+        {
+            log("Found jump!\n");
+            cmd_t* adr_node = node->next;
+            
+            log("try to find ip %zd\n", adr_node->bytecode);
+
+            log("Searched: %zd\n", (SearchCmdByIp(cmdlist, adr_node->bytecode))->byteadr);
+            log("Addr of jump: %zd\n", node->byteadr);
+            adr_node->bytecode = (SearchCmdByIp(cmdlist, adr_node->bytecode))->byteadr - adr_node->byteadr - adr_node->bytesize;        // jump adr|
+        }                                                                                                                               // ________|
+                                                                                                                                        // V destination
+        node = node->next;
+    }
 
     return 0;
 }

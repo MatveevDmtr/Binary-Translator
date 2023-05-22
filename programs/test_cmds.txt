@@ -1,9 +1,14 @@
+name label 0
 PUSH rax
 PUSH 25
-COPY
-SQRT
-POP rax
-POP rax
+PUSH 15
+JB label
+push 11
+push 12
+add
+lbl label
+PUSH rbx
+POP rbx
 POP rax
 HLT
 HLT
