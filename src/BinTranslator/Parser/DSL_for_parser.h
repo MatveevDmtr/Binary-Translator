@@ -1,7 +1,7 @@
 #ifndef DSL_FOR_PARSER_H_INCLUDED
 #define DSL_FOR_PARSER_H_INCLUDED
 
-#define ACCUR 1000
+#define ACCUR 1
 
 #define DO_POP_RAX                                                                \
 {                                                                                 \
@@ -17,15 +17,15 @@
 #define DO_ADD_RAX_RBX                                                            \
 {                                                                                 \
     cmd_t* op_node = NewNode(disasm, cmdlist, op, SIZE_ADD_REG_REG, ADD_REG_REG); \
-    op_node->bytecode |= rax << 19;                                               \
-    op_node->bytecode |= rbx << 16;                                               \
+    op_node->bytecode |= rbx << 19;                                               \
+    op_node->bytecode |= rax << 16;                                               \
 }
 
 #define DO_SUB_RAX_RBX                                                            \
 {                                                                                 \
     cmd_t* op_node = NewNode(disasm, cmdlist, op, SIZE_SUB_REG_REG, SUB_REG_REG); \
-    op_node->bytecode |= rax << 19;                                               \
-    op_node->bytecode |= rbx << 16;                                               \
+    op_node->bytecode |= rbx << 19;                                               \
+    op_node->bytecode |= rax << 16;                                               \
 }
 
 #define DO_PUSH_RAX                                                                \
@@ -111,7 +111,6 @@
     log("RET ADR: %p\n");                                                                                                 \
 }
 
-// FIXXX!!
 #define DO_PUSH_RET_ADDR                                                                                                \
 {                                                                                                                       \
     cmd_t* rax4_node = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM | (rax << 8));                   \

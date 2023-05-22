@@ -143,7 +143,7 @@ int PushHandler(disasm_t* disasm, cmdlist_t* cmdlist)
         if (disasm->asm_code[cmd_ip] & ARG_IMMED)
         {
             cmd_t* push_node = NewNode(disasm, cmdlist, CMD_PUSH, SIZE_PUSH_R15_OFFSET, PUSH_R15_OFFSET);
-            cmd_t* imm_node  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, disasm->asm_code[disasm->ip++]);
+            cmd_t* imm_node  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_ADDR, disasm->asm_code[disasm->ip++]);
         }
         
     }
@@ -185,7 +185,7 @@ int PopHandler(disasm_t* disasm, cmdlist_t* cmdlist)
         if (disasm->asm_code[cmd_ip] & ARG_IMMED)
         {
             cmd_t* pop_node = NewNode(disasm, cmdlist, CMD_POP, SIZE_POP_R15_OFFSET, POP_R15_OFFSET);
-            cmd_t* imm_node  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, disasm->asm_code[disasm->ip++]);
+            cmd_t* imm_node  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_ADDR, disasm->asm_code[disasm->ip++]);
         }
         
     }
@@ -208,18 +208,20 @@ int ArythmeticHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op)
 {
     log("start ArythmeticHandler\n");
 
+    disasm->ip++;
+
     switch (op)
     {
         case CMD_ADD:
-            DO_POP_RAX;
             DO_POP_RBX;
+            DO_POP_RAX;
             DO_ADD_RAX_RBX;
             DO_PUSH_RAX;
             break;
 
         case CMD_SUB:
-            DO_POP_RAX;
             DO_POP_RBX;
+            DO_POP_RAX;
             DO_SUB_RAX_RBX;
             DO_PUSH_RAX;
             break;
@@ -253,18 +255,16 @@ int ArythmeticHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op)
             break;
     }
 
-    disasm->ip++;
-
     return 0;
 }
 
 int CopyHandler(disasm_t* disasm, cmdlist_t* cmdlist)
 {
+    disasm->ip++;
+
     DO_POP_RAX;
     DO_PUSH_RAX;
     DO_PUSH_RAX;
-    
-    disasm->ip++;
 
     return 0;
 }
@@ -316,6 +316,8 @@ int JumpHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op)
         default:
             print_log(FRAMED, "JumpError: invalid type of jump");
     }
+
+    return 0;
 }
 
 cmd_t* SearchCmdByIp(cmdlist_t* cmdlist, size_t ip)
@@ -323,12 +325,14 @@ cmd_t* SearchCmdByIp(cmdlist_t* cmdlist, size_t ip)
     cmd_t* node = cmdlist->head;
     for (size_t i = 0; i < cmdlist->size; i++)
     {
-        if (node->ip == ip)     return node;
+        if (node->ip >= ip)     return node;
 
         node = node->next;
     }
 
     print_log(FRAMED, "JumpError: jump to an invalid address");
+
+    return nullptr;
 }
 
 
@@ -370,6 +374,8 @@ int ParseByteCode(disasm_t* disasm, cmdlist_t* cmdlist)
 
     #undef DEF_CMD
 
+    CmdListDump(cmdlist);
+
     FillJumpAddresses(cmdlist);
 
     return 0;
@@ -377,31 +383,37 @@ int ParseByteCode(disasm_t* disasm, cmdlist_t* cmdlist)
 
 int RetHandler(disasm_t* disasm, cmdlist_t* cmdlist)
 {
+    disasm->ip++;
+
     DO_PUSH_RET_ADDR;
     NewNode(disasm, cmdlist, CMD_RET, SIZE_x86_RET, x86_RET);
-    disasm->ip++;
 
     return 0;
 }
 
 int CmdINHandler(disasm_t* disasm, cmdlist_t* cmdlist)
 {
-    cmd_t* call_node = NewNode(disasm, cmdlist, CMD_CALL, SIZE_x86_CALL, x86_CALL);         // call
+    disasm->ip++;
+
+    cmd_t* call_node = NewNode(disasm, cmdlist, CMD_CALL_IN, SIZE_x86_CALL, x86_CALL);         // call
     cmd_t* adr_call  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_ADDR, 0);                     // adr 4 bytes
     cmd_t* push_node = NewNode(disasm, cmdlist, CMD_PUSH, SIZE_PUSH_REG, PUSH_REG | rax);   // push rax
     
-    disasm->ip++;
     //adr_call->bytecode = (uint64_t)(ScanNumber - adr_call->byteadr - adr_call->bytesize);
+
+    return 0;
 }
 
 int CmdOUTHandler(disasm_t* disasm, cmdlist_t* cmdlist)
 {
+    disasm->ip++;
+
     cmd_t* pop_num   = NewNode(disasm, cmdlist, CMD_POP, SIZE_POP_REG, POP_REG | rdi);      // rdi = arg
     //cmd_t* arg_node  = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM | (rdi << 8));
-    cmd_t* call_node = NewNode(disasm, cmdlist, CMD_CALL, SIZE_x86_CALL, x86_CALL);         // call
+    cmd_t* call_node = NewNode(disasm, cmdlist, CMD_CALL_OUT, SIZE_x86_CALL, x86_CALL);         // call
     cmd_t* adr_call  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_ADDR, 0);                     // adr 4 bytes
-    
-    disasm->ip++;
+
+    return 0;
 }
 
 
@@ -413,9 +425,9 @@ int ScanNumber()
     return a;
 }
 
-int PrintNumber(int a)
+int PrintNumber(long a)
 {
-    printf("Out Print is: %d\n", a);
+    printf("Out Print is: %ld\n", a);
     return 0;
 }
 

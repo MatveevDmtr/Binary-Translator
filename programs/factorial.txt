@@ -3,8 +3,10 @@ name if_one 1
 name end 2
 push 10
 call factorial
+push 1
 push rcx
 out
+pop rax
 hlt
 
 
@@ -14,8 +16,8 @@ push 1
 je if_one
 
 copy
-push -1
-add
+push 1
+sub
 call factorial
 push rcx
 mul

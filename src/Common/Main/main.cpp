@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 {
     Assemble(argc, argv);
 
-    //Run();
+    Run();
 
     cmdlist_t* cmdlist = CreateCmdList();
 

@@ -100,15 +100,22 @@ int FillAddrs_of_Memory_and_Funcs(cmdlist_t* cmdlist, codebuf_t* codebuf)
     {
         Assert(node == nullptr);
 
-        if (node->name == CMD_CALL)
+        if (node->name == CMD_CALL_IN || node->name == CMD_CALL_OUT)
         {
             log("Found call!\n");
+
             cmd_t* adr_node = node->next;
             
-            log("try to find ip %zd\n", adr_node->bytecode);
-            adr_node->bytecode = (uint64_t)(ScanNumber) - (uint64_t)(codebuf->buf + adr_node->byteadr + adr_node->bytesize);        // call adr|
-        }                                                                                                                           // ________|
-                                                                                                                                    // V destination
+            if (node->name == CMD_CALL_IN)
+            {
+                adr_node->bytecode = (uint64_t)(ScanNumber) - (uint64_t)(codebuf->buf + adr_node->byteadr + adr_node->bytesize); // scanf
+            }
+            else if (node->name == CMD_CALL_OUT)
+            {
+                adr_node->bytecode = (uint64_t)(PrintNumber) - (uint64_t)(codebuf->buf + adr_node->byteadr + adr_node->bytesize); // printf
+            }
+        }                                                                                                                           
+
         node = node->next;
     }
 

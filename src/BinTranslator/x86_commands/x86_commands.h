@@ -169,7 +169,9 @@ enum X86_CMD_NAMES
     CMD_DIVXMM = 'xvid',
     CMD_MULXMM = 'xlum',
     CMD_CMP  = 'pmc',
-    CMD_CALL = 'llac',
+    CMD_CALL_IN = 'nic',
+    CMD_CALL_OUT = 'tuoc',
+    CMD_CALL  = 'llac',
 };
 
 enum COND_JMPS : uint64_t {

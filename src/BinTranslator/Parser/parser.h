@@ -79,7 +79,7 @@ int FillJumpAddresses(cmdlist_t* cmdlist);
 
 int ScanNumber();
 
-int PrintNumber(int a);
+int PrintNumber(long a);
 
 int CmdOUTHandler(disasm_t* disasm, cmdlist_t* cmdlist);
 

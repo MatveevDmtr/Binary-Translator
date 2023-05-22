@@ -1,0 +1,28 @@
+name factorial 0
+
+push 88
+push 1
+push 10
+call factorial
+pop rax
+OUT
+pop rax
+hlt
+
+
+
+
+
+lbl factorial
+pop [15]
+push [15]
+mul
+push [15]
+push 1
+sub
+pop [16]
+push [16]
+push [16]
+push 1
+jne factorial
+ret
