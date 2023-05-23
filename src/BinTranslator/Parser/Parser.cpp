@@ -4,6 +4,8 @@
 #include "../../Common/textbufs/textbufs.h"
 #include "../x86_commands/x86_commands.h"
 
+#pragma diadnostic ignored "-Wunused-result"
+
 #undef DEF_CMD
 
 #define DEF_CMD(name, num, arg, bytecode, bytesize, ...)  \

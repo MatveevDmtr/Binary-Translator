@@ -7,7 +7,7 @@
 
 #define PAGESIZE 4096
 
-const size_t NUM_MEASURES = 100;
+const size_t NUM_MEASURES = 1;
 
 
 const size_t DEFAULT_BUFSIZE = 65536;
@@ -27,11 +27,29 @@ int ExecuteASM(cmdlist_t* cmdlist)
 
     RunBuffer(&codebuf);
 
+    CodeBufDtor(&codebuf);
+
+    return 0;
+}
+
+int CodeBufDtor(codebuf_t* codebuf)
+{
+    Assert(codebuf);
+    Assert(codebuf->buf);
+    Assert(codebuf->memory);
+    Assert(codebuf->stkcalls);
+
+    free(codebuf->buf);
+    free(codebuf->memory);
+    free(codebuf->stkcalls);
+
     return 0;
 }
 
 int CodeBufCtor(codebuf_t* codebuf)
 {
+    Assert(codebuf);
+
     codebuf->buf = (char*) aligned_alloc (PAGESIZE, DEFAULT_BUFSIZE * sizeof (char)); // alignment for mprotect
     Assert(codebuf->buf == nullptr);
 
@@ -41,9 +59,9 @@ int CodeBufCtor(codebuf_t* codebuf)
     codebuf->stkcalls = (char*) aligned_alloc (PAGESIZE, DEFAULT_STACK_CALLS_SIZE * sizeof (char));
     Assert(codebuf->stkcalls == nullptr);
 
-    memset ((void*) codebuf->buf,      0x00, DEFAULT_BUFSIZE);               // Filling whole buffer with ret (0xC3)
-    memset ((void*) codebuf->memory,   0x00, DEFAULT_MEMSIZE);               // Filling whole buffer with ret (0xC3)
-    memset ((void*) codebuf->stkcalls, 0x00, DEFAULT_STACK_CALLS_SIZE);      // Filling whole buffer with ret (0xC3)
+    memset ((void*) codebuf->buf,      0x00, DEFAULT_BUFSIZE);               // Filling whole buffer with nulls
+    memset ((void*) codebuf->memory,   0x00, DEFAULT_MEMSIZE);               // Filling whole buffer with nulls
+    memset ((void*) codebuf->stkcalls, 0x00, DEFAULT_STACK_CALLS_SIZE);      // Filling whole buffer with nulls
 
     codebuf->cursor        = 0;
     codebuf->capacity      = DEFAULT_BUFSIZE;
@@ -55,6 +73,9 @@ int CodeBufCtor(codebuf_t* codebuf)
 
 int FillCodeBuf(codebuf_t* codebuf, cmdlist_t* cmdlist)
 {
+    Assert(codebuf);
+    Assert(cmdlist);
+
     FillAddrs_of_Memory_and_Funcs(cmdlist, codebuf);
     //codebuf->buf[codebuf->cursor++] = bytecode;
 
@@ -128,6 +149,8 @@ int FillAddrs_of_Memory_and_Funcs(cmdlist_t* cmdlist, codebuf_t* codebuf)
 
 int RunBuffer(codebuf_t* codebuf)
 {
+    Assert(codebuf);
+
     mProtectChangeRights(codebuf, PROT_EXEC | PROT_READ | PROT_WRITE);
 
     void (*exec_buffer)() = (void (*)(void))(codebuf->buf);
@@ -152,6 +175,8 @@ int RunBuffer(codebuf_t* codebuf)
 
 int mProtectChangeRights(codebuf_t* codebuf, int new_rights)
 {
+    Assert(codebuf->buf);
+
     int mprotect_status = mprotect (codebuf->buf, codebuf->capacity + 1, new_rights);
     if (mprotect_status == -1)
     {

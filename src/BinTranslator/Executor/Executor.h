@@ -32,4 +32,6 @@ int mProtectChangeRights(codebuf_t* codebuf, int new_rights);
 
 int FillAddrs_of_Memory_and_Funcs(cmdlist_t* cmdlist, codebuf_t* codebuf);
 
+int CodeBufDtor(codebuf_t* codebuf);
+
 #endif //guard EXECUTOR_H_INCLUDED

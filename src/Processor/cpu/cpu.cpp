@@ -22,7 +22,7 @@ const size_t REG_SIZE = 30;
 
 const double EPS      = 0.0001;
 
-const size_t NUM_MEASURES = 100;
+const size_t NUM_MEASURES = 1;
 
 int Run()
 {
