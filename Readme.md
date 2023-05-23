@@ -67,14 +67,14 @@ JIT-компиляция – это метод повышения произво
 Ниже приведена схема трансляции некоторых команд "Моего ASM" в команды __NASM__:
 
 | Команда "Моего ASM" | Команды nasm        |
-| :----------: | :---------------:          |
+| ---------- | ---------------          |
 | HLT          |      ret                   |
 | PUSH [offset]|      push [r15+offset]     |
 | PUSH reg     |      push reg              |
 | PUSH val     |      mov rsi, val <br> push rdi          |
 | POP [offset]|      pop [r15+offset]     |
 | POP reg     |      pop reg              |
-| ADD         |      pop rbx <br> pop rax <br> add rax, pbx <br> push rax             |
+| ADD         |      pop rbx <br> pop rax <br> add rax, rbx <br> push rax             |
 | SUB         |      pop rbx <br> pop rax <br> sub rax, pbx <br> push rax             |
 | MUL         |      pop rax <br> cvtsi2sd xmm0, rax <br> mov rax, ACCUR <br> cvtsi2sd xmm1, rax <br> divpd xmm0, xmm1 <br> pop rax <br> cvtsi2sd xmm1, rax <br> mulpd xmm0, xmm1 <br> cvtsd2si rax, xmm0 <br> push rax           |
 | DIV         |      pop rax <br> cvtsi2sd xmm0, rax <br>  pop rax <br> cvtsi2sd xmm1, rax <br> divpd xmm0, xmm1 <br> mov rax, ACCUR <br> cvtsi2sd xmm1, rax <br> mulpd xmm0, xmm1 <br> cvtsd2si rax, xmm0 <br> push rax               |
@@ -122,7 +122,7 @@ JIT-компиляция – это метод повышения произво
 Ускорение превысило все ожидания и составило более 621 раз. Теперь измерим значение ускорение для включенного вывода результата (команда `OUT`):
 
 |    Процессор            | Время, мс                     | Ускорение  |
-|-------------------------|-------------------------------|------------|
+|:-------------------------:|:-------------------------------:|:------------:|
 | виртуальный с ```-O2``` |            22722               |  1         |
 | X86-64                  |             552                |  41,2      |
 
