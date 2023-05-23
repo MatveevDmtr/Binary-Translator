@@ -1,4 +1,7 @@
 #include "cpu.h"
+#include <time.h>
+#include <ctime>
+#include <chrono>
 #include "../ProcessorConfig/ProcessorConfig.h"
 
 /*static char* CpuErrorNames[] {
@@ -18,6 +21,8 @@ const size_t RAM_SIZE = 5000;
 const size_t REG_SIZE = 30;
 
 const double EPS      = 0.0001;
+
+const size_t NUM_MEASURES = 100;
 
 int Run()
 {
@@ -39,10 +44,16 @@ int Run()
 
     log("Code was read\n");
 
-    if (Execute(&cpu))
+    unsigned long int start_time =  clock();
+
+    for (size_t num_measures = 0; num_measures < NUM_MEASURES; num_measures++) 
     {
-        print_log(FRAMED, "EXECUTION ERROR");
+        Execute(&cpu);
     }
+
+    unsigned long int end_time = clock();
+
+    printf("virtual processor time: %zd\n", end_time - start_time);
 
     log("before CPUDtor\n");
     CPUDtor(&cpu);
@@ -59,6 +70,8 @@ int Execute(CPU* cpu)
     stack_t* stk = cpu->Stk;
 
     Assert(stk == NULL);
+
+    cpu->ip = 0;
 
     log("ip: %d, Size: %d\n", cpu->ip, cpu->Size);
 

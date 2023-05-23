@@ -67,7 +67,7 @@ int PushHandler(disasm_t* disasm, cmdlist_t* cmdlist);
 
 int PopHandler(disasm_t* disasm, cmdlist_t* cmdlist);
 
-int ArythmeticHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op);
+int ArithmeticHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op);
 
 int CopyHandler(disasm_t* disasm, cmdlist_t* cmdlist);
 

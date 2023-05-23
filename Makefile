@@ -1,8 +1,8 @@
 # Переменная CC указывает компилятор, используемый для сборки
 CC=g++
 #В переменной CFLAGS лежат флаги, которые передаются компилятору
-CFLAGS=-c -fno-omit-frame-pointer -std=c++14 -DLOGGING -Wno-multichar
-OPTFLAG=-O0
+CFLAGS=-c -fno-omit-frame-pointer -std=c++14 -Wno-multichar
+OPTFLAG=-O2
 MY_OPT=
 
 PROCESSOR_OBJ_FILES     = Stack_main.o Assembler.o cpu.o GetPoison.o specificators.o
@@ -43,7 +43,7 @@ Parser.o: src/BinTranslator/Parser/Parser.cpp
 	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/BinTranslator/Parser/Parser.cpp
 
 Executor.o: src/BinTranslator/Executor/Executor.cpp
-	$(CC) $(CFLAGS) $(OPTFLAG) $(MY_OPT) src/BinTranslator/Executor/Executor.cpp
+	$(CC) $(CFLAGS) $(MY_OPT) src/BinTranslator/Executor/Executor.cpp
 
 clear:
 	rm *.o

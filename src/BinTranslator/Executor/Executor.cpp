@@ -3,7 +3,11 @@
 #include "../x86_commands/x86_commands.h"
 #include "../Parser/parser.h"
 #include "Executor.h"
+#include <ctime>
+
 #define PAGESIZE 4096
+
+const size_t NUM_MEASURES = 100;
 
 
 const size_t DEFAULT_BUFSIZE = 65536;
@@ -124,14 +128,22 @@ int FillAddrs_of_Memory_and_Funcs(cmdlist_t* cmdlist, codebuf_t* codebuf)
 
 int RunBuffer(codebuf_t* codebuf)
 {
-    //log("PAGESIZE: %zd\n", PAGESIZE);
     mProtectChangeRights(codebuf, PROT_EXEC | PROT_READ | PROT_WRITE);
 
     void (*exec_buffer)() = (void (*)(void))(codebuf->buf);
     
     Assert(exec_buffer == nullptr);
 
-    exec_buffer();
+    unsigned long int start_time =  clock();
+
+    for (size_t num_measures = 0; num_measures < NUM_MEASURES; num_measures++) 
+    {
+        exec_buffer();
+    }
+
+    unsigned long int end_time = clock();
+
+    printf("x86 time: %zd\n", end_time - start_time);
 
     mProtectChangeRights(codebuf, PROT_READ | PROT_WRITE);
 

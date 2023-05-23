@@ -103,8 +103,8 @@
     cmd_t* adr_node    = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, 0);                                                  \
     cmd_t* add_buf_adr = NewNode(disasm, cmdlist, CMD_ADD, SIZE_ADD_RAX_R14, ADD_RAX_R14);                                \
     cmd_t* mov_node    = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_RSI_OFFSET_RAX, MOV_RSI_OFFSET_RAX);                  \
-    cmd_t* rax4_node   = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM | (rax << 8));                   \
-    cmd_t* int_node    = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, 4);                                                  \
+    cmd_t* rax8_node   = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM | (rax << 8));                   \
+    cmd_t* int_node    = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, 8);                                                  \
     cmd_t* add_node    = NewNode(disasm, cmdlist, CMD_ADD, SIZE_ADD_REG_REG, (ADD_REG_REG | (rax << 19)) | (rsi << 16));  \
     DO_JUMP;                                                                                                              \
     adr_node->bytecode = cmdlist->tail->byteadr + cmdlist->tail->bytesize;                                                \
@@ -113,8 +113,8 @@
 
 #define DO_PUSH_RET_ADDR                                                                                                \
 {                                                                                                                       \
-    cmd_t* rax4_node = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM | (rax << 8));                   \
-    cmd_t* int_node  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, 4);                                                  \
+    cmd_t* rax8_node = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_REG_IMM, MOV_REG_IMM | (rax << 8));                   \
+    cmd_t* int_node  = NewNode(disasm, cmdlist, CMD_IMM, SIZE_IMM, 8);                                                  \
     cmd_t* sub_node  = NewNode(disasm, cmdlist, CMD_SUB, SIZE_SUB_REG_REG, (SUB_REG_REG | (rax << 19)) | (rsi << 16));  \
     cmd_t* mov_node  = NewNode(disasm, cmdlist, CMD_MOV, SIZE_MOV_RAX_RSI_OFFSET, MOV_RAX_RSI_OFFSET);                  \
     cmd_t* push_node = NewNode(disasm, cmdlist, CMD_PUSH, SIZE_PUSH_REG, PUSH_REG | rax);                               \

@@ -30,8 +30,6 @@
 
 DEF_CMD(HLT, 0, 0,
 {
-    printf("Goodbye!\n");
-
     return 0;
 })
 

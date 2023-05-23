@@ -52,19 +52,19 @@ PopHandler(disasm, cmdlist);
 
 DEF_CMD(ADD , 3, 0, 0, 0,
 log("ADD found\n");
-ArythmeticHandler(disasm, cmdlist, CMD_ADD);
+ArithmeticHandler(disasm, cmdlist, CMD_ADD);
 )
 
 DEF_CMD(SUB , 4, 0, 0, 0,
-ArythmeticHandler(disasm, cmdlist, CMD_SUB);
+ArithmeticHandler(disasm, cmdlist, CMD_SUB);
 )
 
 DEF_CMD(MUL , 5, 0, 0, 0,
-ArythmeticHandler(disasm, cmdlist, CMD_MUL);
+ArithmeticHandler(disasm, cmdlist, CMD_MUL);
 )
 
 DEF_CMD(DIV , 6, 0, 0, 0,
-ArythmeticHandler(disasm, cmdlist, CMD_DIV);
+ArithmeticHandler(disasm, cmdlist, CMD_DIV);
 )
 
 DEF_CMD(IN  , 7, 0, 0, 0,
@@ -128,7 +128,7 @@ CopyHandler(disasm, cmdlist);
 )
 
 DEF_CMD(SQRT, 22, 0, 0, 0,
-ArythmeticHandler(disasm, cmdlist, CMD_SQRT);
+ArithmeticHandler(disasm, cmdlist, CMD_SQRT);
 )
 
 DEF_CMD(CLEAR, 23, 0, 0, 0,

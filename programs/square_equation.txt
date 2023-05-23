@@ -12,15 +12,15 @@ name TwoNulls 10
 name PrintInfSol 11
 
 
-in
+push 1
 copy
 pop [0]
 
-in
+push 2
 copy
 pop [1]
 
-in
+push 1
 copy
 pop [2]
 

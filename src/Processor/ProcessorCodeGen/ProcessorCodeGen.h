@@ -44,7 +44,7 @@ DEF_CMD(HLT, 0, 0,
     WRITE_CMD_NUM;
 #else
     {
-        printf("Goodbye!\n");
+        //printf("Goodbye!\n");
 
         return 0;
     };

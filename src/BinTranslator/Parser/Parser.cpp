@@ -204,9 +204,9 @@ int PopHandler(disasm_t* disasm, cmdlist_t* cmdlist)
     return 0;
 }
 
-int ArythmeticHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op)
+int ArithmeticHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op)
 {
-    log("start ArythmeticHandler\n");
+    log("start ArithmeticHandler\n");
 
     disasm->ip++;
 
@@ -251,7 +251,7 @@ int ArythmeticHandler(disasm_t* disasm, cmdlist_t* cmdlist, uint64_t op)
             break;
 
         default:
-            print_log(FRAMED, "Invalid Arythmetic operation");
+            print_log(FRAMED, "Invalid Arithmetic operation");
             break;
     }
 

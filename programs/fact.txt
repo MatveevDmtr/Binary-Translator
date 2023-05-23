@@ -1,4 +1,5 @@
 name factorial 0
+name end 1
 
 push 88
 push 1
@@ -24,5 +25,7 @@ pop [16]
 push [16]
 push [16]
 push 1
-jne factorial
+je end
+call factorial
+lbl end
 ret
